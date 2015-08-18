@@ -1,0 +1,50 @@
+<div class="alert bg-info">
+	<div class="pull-left">
+		<?php echo Html::img("profesor.png","icono de profesores","width='100px'") ?>
+	</div>
+	<div class="pull-left">
+		<h2 style="line-height:500%;margin-left:20px !important">Profesor: <b><?php echo strtoupper($profesor->apellidos)." ".ucfirst($profesor->nombres) ?></b></h2>
+	</div>
+	<div class="clearfix"></div>
+</div>
+<?php View::content() ?>
+<div class="row">
+	<div class="col-md-6">
+		<center><h3>Materias Asignadas</h3></center>
+		<?php if ($asignaturas): ?>
+			<table class="table datatable">
+				<thead>
+					<th>CODIGO</th>
+					<th>ASIGNATURA</th>
+					<th>SEMESTRE</th>
+					<th></th>
+				</thead>
+				<?php foreach ($asignaturas as $key => $value): ?>
+					<tr>
+						<td><?php echo $value->codigo ?></td>
+						<td><?php echo $value->asignatura ?></td>
+						<td><?php echo $value->numero ?></td>
+						<th><?php echo Html::link("profesor/eliminarasignatura/$value->id/$value->codigo","<span class='glyphicon glyphicon-remove'></span>","class='btn btn-default btn-xs' title='Quitar'") ?></th>
+					</tr>
+				<?php endforeach ?>
+			</table>
+		<?php else: ?>
+			<center>
+				<?php Flash::error("Sin asignaturas por asignar") ?>
+			</center>
+		<?php endif ?>
+	</div>
+  	<div class="col-md-6">
+  		<center><h3>Asignar Materias</h3></center>
+  		<center>
+  		<?php echo Form::open("profesor/asignar/{$profesor->id}","post","class='form-inline'") ?>
+  			<?php echo Form::hidden("profesorasignatura.profesor_id",null,$profesor->id) ?>
+			<div class="form-group">
+			<?php echo Form::select("profesorasignatura.asignatura_id",$select,"class='form-control'") ?>
+			</div>
+			<?php echo Form::submit("Asignar","class='btn btn-success'") ?>
+		<?php echo Form::close() ?></center>
+  	</div>
+</div>
+<br>
+<?php echo Html::link("profesor/","Lista de Profesores","class='btn btn-default'") ?>

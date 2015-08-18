@@ -1,0 +1,123 @@
+<?php echo Tag::css("mios"); ?>
+
+<div class="alert bg-info">
+	<div class="pull-left">
+		<?php echo Html::img("materias.png","icono de asignaturas","width='100px'") ?>
+	</div>
+	<div class="pull-left" >
+		<h2 class="titulo_de_imagen"><?php echo $titulo ?></h2>
+	</div>
+	<div class="clearfix"></div>
+	
+	<div class="clearfix"></div>
+	<br>
+	<div class="pull-right">
+
+<!-- Button trigger modal -->
+		<?php echo Html::link("#","<span class=\"glyphicon glyphicon-plus\" aria-hidden=\"true\"></span>  Ingresar nueva asignatura","class='btn btn-default btn-sm' data-toggle=\"modal\" data-target=\"#myModal\" ") ?>
+	</div>
+	<div class="clearfix"></div>
+
+</div>
+
+<?php View::content() ?>
+
+<!-- Grid -->
+
+<table class="table datatable">
+	<thead>
+		<th>CODIGO</th>
+		<th>ASIGNATURA</th>
+		<th>SEMESTRE</th>
+		<th>HT</th>
+		<th>HP</th>
+		<th>TH</th>
+		<th>CR</th>
+		<th>ESTADO</th>
+		<th></th>
+	</thead>
+	<?php foreach ($asignaturas as $key => $value): ?>
+		<tr>
+			<td><?php echo $value->codigo ?></td>
+			<td><?php echo strtoupper($value->asignatura)?></td>
+			<td><?php echo ucfirst($value->getSemestre($value->semestre_id)) ?></td>
+			<td><?php echo ucfirst($value->ht) ?></td>
+			<td><?php echo ucfirst($value->hp) ?></td>
+			<td><?php echo ucfirst($value->th) ?></td>
+			<td><?php echo ucfirst($value->cr) ?></td>
+			<td><?php echo ucfirst($value->getEstado($value->estado)) ?></td>
+			<td><?php echo Html::link("asignatura/editar/{$value->id}","<span class='glyphicon glyphicon-pencil'></span>","class='btn btn-default btn-sm' title='Editar'") ?></td>
+		</tr>
+	<?php endforeach ?>
+</table>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+  	<?php echo Form::open("asignatura/nueva","POST") ?>
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Formulario de asignatura</h4>
+      </div>
+      <div class="modal-body">
+      	<div class="row">
+      		<div class="col-md-6">
+      			<div class="form-group">
+		      		<label>Código</label>
+		      		<?php echo Form::text("asignatura.codigo","class='form-control' maxlength=\"8\" ") ?>
+		      	</div>
+		      	<div class="form-group">
+		      		<label>Asignatura</label>
+		      		<?php echo Form::text("asignatura.asignatura","class='form-control' maxlength=\"100\" ") ?>
+		      	</div>
+		      	<div class="form-group">
+		      		<label>Semestre</label>
+		      		<?php echo Form::dbselect("asignatura.semestre_id",NULL,NULL,"Seleccione","class='form-control' required") ?>
+		      	</div>
+		      	<div class="form-group">
+		      		<label>HT</label>
+		      		<?php echo Form::number("asignatura.ht","class='form-control' maxlength=\"2\" max=\"100\" maxlength = \"3\"  oninput=\"maxLengthCheck(this)\"") ?>
+		      	</div>
+		      	
+      		</div>
+  			<div class="col-md-6">
+  			<div class="form-group">
+		      		<label>HP</label>
+		      		<?php echo Form::number("asignatura.hp","class='form-control' maxlength=\"2\" max=\"100\" maxlength = \"3\"  oninput=\"maxLengthCheck(this)\"") ?>
+		      	</div>
+  				<div class="form-group">
+		      		<label>TH</label>
+		      		<?php echo Form::number("asignatura.th","class='form-control' maxlength=\"2\" max=\"100\" maxlength = \"3\" oninput=\"maxLengthCheck(this)\"") ?>
+		      	</div>
+		      	<div class="form-group">
+		      		<label>CR</label>
+		      		<?php echo Form::number("asignatura.cr","class='form-control' maxlength=\"2\" max=\"100\" maxlength = \"3\" oninput=\"maxLengthCheck(this)\"") ?>
+		      	</div>
+		      	
+		      
+		      	<div class="form-group">
+		      		<label>Estado</label>
+		      		<?php echo Form::select("asignatura.estado",array("1"=>"Activo","0"=>"No Activo"),"class='form-control' required") ?>
+		      	</div>
+  			</div>
+	      	
+      	</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+      </div>
+    </div>
+    <?php echo Form::close() ?>
+  </div>
+</div>
+<script>
+  function maxLengthCheck(object)
+  {
+    if (object.value.length > object.maxLength)
+      object.value = object.value.slice(0, object.maxLength)
+  }
+</script>

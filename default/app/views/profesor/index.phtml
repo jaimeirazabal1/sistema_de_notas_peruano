@@ -1,0 +1,124 @@
+<?php echo Tag::css("mios"); ?>
+
+<div class="alert bg-info">
+	<div class="pull-left">
+		<?php echo Html::img("profesor.png","icono de profesores","width='100px'") ?>
+	</div>
+	<div class="pull-left" >
+		<h2 class="titulo_de_imagen"><?php echo $titulo ?></h2>
+	</div>
+	<div class="clearfix"></div>
+	
+	<div class="clearfix"></div>
+	<br>
+	<div class="pull-right">
+
+<!-- Button trigger modal -->
+		<?php echo Html::link("#","<span class=\"glyphicon glyphicon-plus\" aria-hidden=\"true\"></span>  Ingresar nuevo profesor","class='btn btn-default btn-sm' data-toggle=\"modal\" data-target=\"#myModal\" ") ?>
+	</div>
+	<div class="clearfix"></div>
+
+</div>
+
+<?php View::content() ?>
+
+<!-- Grid -->
+
+<table class="table datatable">
+	<thead>
+		<th>DNI Nº</th>
+		<th>APELLIDOS Y NOMBRES</th>
+		<th>DIRECCION</th>
+		<th>CELULAR N°</th>
+		<th>TIPO USUARIO</th>
+		<th>ASIGNAR ASIGNATURAS</th>
+		<th>ESTADO</th>
+		<th></th>
+	</thead>
+	<?php foreach ($profesores as $key => $value): ?>
+		<tr>
+			<td><?php echo $value->dni ?></td>
+			<td><?php echo strtoupper($value->apellidos)." ".ucfirst($value->nombres) ?></td>
+			<td><?php echo ucfirst($value->especialidad) ?></td>
+			<td><?php echo ucfirst($value->celular) ?></td>
+			<td><?php echo ucfirst($value->getTipoUsuario($value->tipo_usuario)) ?></td>
+			<td class="text-center"><?php echo Html::link("profesor/asignatura/{$value->id}","<span class='glyphicon glyphicon-cog'>","class='btn btn-default btn-xs'") ?></td>
+			<td><?php echo ucfirst($value->getEstado($value->estado)) ?></td>
+			<td><?php echo Html::link("profesor/editar/{$value->id}","<span class='glyphicon glyphicon-pencil'></span>","class='btn btn-default btn-sm' title='Editar'") ?></td>
+		</tr>
+	<?php endforeach ?>
+</table>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+  	<?php echo Form::open("profesor/nuevo","POST") ?>
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Formulario de Profesor</h4>
+      </div>
+      <div class="modal-body">
+      	<div class="row">
+      		<div class="col-md-5">
+      			<div class="form-group">
+		      		<label>DNI Nº</label>
+		      		<?php echo Form::text("profesor.dni","class='form-control' maxlength=\"8\" ") ?>
+		      	</div>
+		      	<div class="form-group">
+		      		<label>Nombres</label>
+		      		<?php echo Form::text("profesor.nombres","class='form-control' maxlength=\"50\" ") ?>
+		      	</div>
+		      	<div class="form-group">
+		      		<label>Apellidos</label>
+		      		<?php echo Form::text("profesor.apellidos","class='form-control' maxlength=\"50\" ") ?>
+		      	</div>
+		      	<div class="form-group">
+		      		<label>Especialidad</label>
+		      		<?php echo Form::text("profesor.especialidad","class='form-control' maxlength=\"50\" ") ?>
+		      	</div>
+		      	<div class="form-group">
+		      		<label>Correo</label>
+		      		<?php echo Form::email("profesor.correo","class='form-control' maxlength=\"50\" ") ?>
+		      	</div>
+      		</div>
+  			<div class="col-md-7">
+  				<div class="form-group">
+		      		<label>Dirección</label>
+		      		<?php echo Form::text("profesor.direccion","class='form-control'") ?>
+		      	</div>
+		      	<div class="form-group">
+		      		<label>Celular</label>
+		      		<?php echo Form::text("profesor.celular","class='form-control' maxlength=\"18\"") ?>
+		      	</div>
+		      	
+		      	<div class="form-group">
+    
+		      		<label>Fecha de Nacimiento</label>
+		      		<div class="input-group date">
+			      		<?php echo Form::text("profesor.fnacimiento","class='form-control datepicker'") ?>
+			      		<div class="input-group-addon"><span class="glyphicon glyphicon-th" aria-hidden="true"></span></div>
+		      		</div>
+		      	</div>
+		      	<div class="form-group">
+		      		<label>Estado</label>
+		      		<?php echo Form::select("profesor.estado",array("1"=>"Activo","0"=>"No Activo"),"class='form-control'") ?>
+		      	</div>
+		      	<div class="form-group">
+		      		<label>Tipo de Usuario</label>
+		      		<?php echo Form::select("profesor.tipo_usuario",array("1"=>"Docente","0"=>"Administrador"),"class='form-control'") ?>
+		      	</div>
+  			</div>
+	      	
+      	</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+      </div>
+    </div>
+    <?php echo Form::close() ?>
+  </div>
+</div>

@@ -1,0 +1,26 @@
+<?php echo Tag::css("mios"); ?>
+
+<div class="alert bg-info">
+	<div class="pull-left">
+		<?php echo Html::img("alumno.png","icono de alumnos","width='100px'") ?>
+	</div>
+	<div class="pull-left" >
+		<h2 class="titulo_de_imagen"><?php echo $titulo ?></h2>
+	</div>
+	<div class="clearfix"></div>
+	<div class="pull-right">
+		<form class="form-inline" method="post">
+		  <div class="form-group">
+		    <input type="text" class="form-control input-sm" id="alumno" placeholder="Buscar Alumno">
+		  </div>
+		  <button type="submit" class="btn btn-default btn-sm">Buscar</button>
+		</form>
+	</div>
+	<div class="clearfix"></div>
+	<br>
+	<div class="pull-right">
+		<?php echo Html::link("alumno/nuevo","<span class=\"glyphicon glyphicon-plus\" aria-hidden=\"true\"></span>  Ingresar nuevo alumno","class='btn btn-default btn-sm'") ?>
+	</div>
+	<div class="clearfix"></div>
+
+</div>
