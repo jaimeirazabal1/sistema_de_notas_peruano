@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 18-08-2015 a las 15:53:37
+-- Tiempo de generación: 18-08-2015 a las 20:49:37
 -- Versión del servidor: 5.5.44-0ubuntu0.14.04.1
 -- Versión de PHP: 5.5.9-1ubuntu4.11
 
@@ -38,7 +38,14 @@ CREATE TABLE IF NOT EXISTS `alumno` (
   `ip` varchar(30) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `dni` (`dni`,`celular`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+--
+-- Volcado de datos para la tabla `alumno`
+--
+
+INSERT INTO `alumno` (`id`, `dni`, `nombres`, `apellidos`, `direccion`, `celular`, `estado`, `creado`, `ip`) VALUES
+(1, '19519519', 'Pedro Rodolfo', 'Alvarez Guedes', 'Por aqui por alla', '12153152136512136', 1, '2015-08-19 01:11:45', '127.0.0.1');
 
 -- --------------------------------------------------------
 
@@ -135,7 +142,7 @@ CREATE TABLE IF NOT EXISTS `profesorasignatura` (
   `asignatura_id` int(11) NOT NULL,
   `profesor_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
 -- Volcado de datos para la tabla `profesorasignatura`
@@ -143,7 +150,8 @@ CREATE TABLE IF NOT EXISTS `profesorasignatura` (
 
 INSERT INTO `profesorasignatura` (`id`, `asignatura_id`, `profesor_id`) VALUES
 (3, 1, 3),
-(4, 0, 3);
+(4, 0, 3),
+(6, 3, 3);
 
 -- --------------------------------------------------------
 
