@@ -7,6 +7,9 @@ class Alumno extends ActiveRecord{
    		$this->validates_uniqueness_of("celular","message: El número celular ya se uso, por favor use otro");
    
 	}
+	public function getAlumnos(){
+		return $this->find_all_by_sql("select id, CONCAT(nombres,' ',apellidos) as alum from alumno");
+	}
 }
 
  ?>

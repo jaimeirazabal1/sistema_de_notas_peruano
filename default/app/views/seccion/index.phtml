@@ -1,0 +1,73 @@
+<?php echo Tag::css("mios"); ?>
+
+<div class="alert bg-info">
+	<div class="pull-left">
+		<?php echo Html::img("seccion.png","icono de secciones","width='100px'") ?>
+	</div>
+	<div class="pull-left" >
+		<h2 class="titulo_de_imagen"><?php echo $titulo ?></h2>
+	</div>
+	<div class="clearfix"></div>
+	
+	<div class="clearfix"></div>
+	<br>
+	<div class="pull-right">
+
+<!-- Button trigger modal -->
+		<?php echo Html::link("#","<span class=\"glyphicon glyphicon-plus\" aria-hidden=\"true\"></span>  Ingresar nueva seccion","class='btn btn-default btn-sm' data-toggle=\"modal\" data-target=\"#myModal\" ") ?>
+	</div>
+	<div class="clearfix"></div>
+
+</div>
+
+<?php View::content() ?>
+
+<!-- Grid -->
+<table class="table datatable">
+	<thead>
+		<th>Semestre</th>
+		<th>Sección</th>
+	</thead>
+	<?php foreach ($secciones as $key => $value): ?>
+		<tr>
+			<td>
+				<?php echo $value->numero ?>
+			</td>
+			<td>
+				<?php echo $value->seccion ?>
+			</td>
+		</tr>
+	<?php endforeach ?>
+</table>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+  	<?php echo Form::open("seccion/nueva","POST") ?>
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Formulario de seccion</h4>
+      </div>
+      <div class="modal-body">
+      	<div class="row">
+      		<div class="col-md-6">
+      			<label for="">Semestre</label>
+      			<?php echo Form::dbselect("seccion.semestre_id",null,null,"Seleccione","class='form-control'") ?>
+  			</div>
+  			<div class="col-md-6">
+  				<label for="">Sección</label>
+      			<?php echo Form::text("seccion.seccion","class='form-control'") ?>
+  			</div>
+      	</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+      </div>
+    </div>
+    <?php echo Form::close() ?>
+  </div>
+</div>

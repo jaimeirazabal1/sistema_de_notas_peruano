@@ -5,7 +5,8 @@ class AlumnoController extends AppController{
 	public function index(){
 		$this->titulo="Control de Alumnos";
 		$alumno = new Alumno();
-		$this->alumnos = $alumno->find();
+		$this->alumnos = $alumno->find("columns: alumno.*, semestre.numero, seccion.seccion",
+										"join: inner join semestre on alumno.semestre_id = semestre.id inner join seccion on alumno.seccion_id = seccion.id");
 	}
 	public function nuevo(){
 		if (Input::haspost("alumno")) {

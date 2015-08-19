@@ -18,6 +18,10 @@
 		      		<label>Direccion</label>
 		      		<?php echo Form::text("alumno.direccion","class='form-control' maxlength=\"50\" ") ?>
 		      	</div>
+		      	<div class="form-group">
+		      		<label>Semestre</label>
+		      		<?php echo Form::dbselect("alumno.semestre_id",null,null,"Seleccione","class='form-control' title='Al cambiar el semestre se cambian las secciones'") ?>
+		      	</div>
       		</div>
   			<div class="col-md-6">
 		      	
@@ -34,6 +38,11 @@
 		      		<label>Celular</label>
 		      		<?php echo Form::text("alumno.celular","class='form-control' maxlength=\"25\" ") ?>
 		      	</div>
+		      	<div class="form-group">
+		      		<label>Sección</label>
+		      		<div id="cargando_secciones" style="display:none">Cargando Secciones...</div>
+		      		<?php echo Form::dbselect("alumno.seccion_id","seccion",null,"Seleccione","class='form-control'") ?>
+		      	</div>
   			</div>
 	      	
       	</div>
@@ -42,3 +51,28 @@
 
     </div>
     <?php echo Form::close() ?>
+
+    <script type="text/javascript">
+	$(document).ready(function(){
+		$("#alumno_semestre_id").on("change",function(){
+			var id = $(this).val();
+			$("#cargando_secciones").css("display","block");
+			$.ajax({
+				url:"../../seccion/obtener_secciones_por_semestre/?id="+id,
+				type:"get",
+				dataType:"json",
+				async:false,
+				success:function(r){
+					options = '';
+					for (var i = 0; i < r.length; i++) {
+						options+= "<option value='"+r[i].id+"'>"+r[i].seccion+"</option>";
+					};
+					$("#alumno_seccion_id").html(options);
+					$("#cargando_secciones").css("display","none");
+					//console.log(r);
+				}
+
+			})
+		})
+	})
+</script>

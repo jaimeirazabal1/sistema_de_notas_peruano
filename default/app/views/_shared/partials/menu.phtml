@@ -1,23 +1,40 @@
-<ul class="nav nav-pills">
-	<?php $controlador = Router::get("controller") ?>
-	<?php if ($controlador == "perfil"): ?>
-  		<li role="presentation" class='active'><a href="#">Perfil</a></li>
-	<?php else: ?>
-		<li role="presentation"><a href="#">Perfil</a></li>
-	<?php endif ?>
-	<?php if ($controlador == "profesor"): ?>
- 		<li role="presentation" class='active'><?php echo Html::link("profesor/","Profesores") ?></li>
+<?php if (Auth::is_valid()): ?>
+  <ul class="nav nav-pills">
+  	<?php $controlador = Router::get("controller") ?>
+  	<?php if ($controlador == "perfil"): ?>
+    		<li role="presentation" class='active'><?php echo Html::link("perfil/","Perfil") ?></li>
   	<?php else: ?>
-		<li role="presentation"><?php echo Html::link("profesor/","Profesores") ?></li>
+  		<li role="presentation"><?php echo Html::link("perfil/","Perfil") ?></li>
   	<?php endif ?>
-  	<?php if ($controlador == "alumno"): ?>
-  		<li role="presentation" class='active'><?php echo Html::link("alumno/","Alumnos") ?></li>
-  	<?php else: ?>
-  		<li role="presentation"><?php echo Html::link("alumno/","Alumnos") ?></li>
-  	<?php endif ?>
-  	<?php if ($controlador == "asignatura"): ?>
-  		<li role="presentation" class='active'><?php echo Html::link("asignatura/","Asignaturas") ?></li>
-  	<?php else: ?>
-  		<li role="presentation"><?php echo Html::link("asignatura/","Asignaturas") ?></li>
-  	<?php endif ?>
-</ul>
+    <?php if (Auth::get("tipousuario") == "administrador"): ?>
+      
+    	<?php if ($controlador == "profesor"): ?>
+     		<li role="presentation" class='active'><?php echo Html::link("profesor/","Profesores") ?></li>
+      	<?php else: ?>
+    		<li role="presentation"><?php echo Html::link("profesor/","Profesores") ?></li>
+      	<?php endif ?>
+      	<?php if ($controlador == "alumno"): ?>
+      		<li role="presentation" class='active'><?php echo Html::link("alumno/","Alumnos") ?></li>
+      	<?php else: ?>
+      		<li role="presentation"><?php echo Html::link("alumno/","Alumnos") ?></li>
+      	<?php endif ?>
+      	<?php if ($controlador == "asignatura"): ?>
+      		<li role="presentation" class='active'><?php echo Html::link("asignatura/","Asignaturas") ?></li>
+      	<?php else: ?>
+      		<li role="presentation"><?php echo Html::link("asignatura/","Asignaturas") ?></li>
+      	<?php endif ?>
+        <?php if ($controlador == "seccion"): ?>
+          <li role="presentation" class='active'><?php echo Html::link("seccion/","Secciones") ?></li>
+        <?php else: ?>
+          <li role="presentation"><?php echo Html::link("seccion/","Secciones") ?></li>
+        <?php endif ?>
+        <?php if ($controlador == "evaluacion"): ?>
+          <li role="presentation" class='active'><?php echo Html::link("evaluacion/","Evaluaciones") ?></li>
+        <?php else: ?>
+          <li role="presentation"><?php echo Html::link("evaluacion/","Evaluaciones") ?></li>
+        <?php endif ?>
+        
+    <?php endif ?>
+    <li role="presentation"><?php echo Html::link("perfil/logout","Salir","class='btn btn-danger'") ?></li>
+  </ul>
+<?php endif ?>

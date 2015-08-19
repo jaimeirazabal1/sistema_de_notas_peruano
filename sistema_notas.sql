@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 18-08-2015 a las 20:49:37
+-- Tiempo de generación: 19-08-2015 a las 15:35:40
 -- Versión del servidor: 5.5.44-0ubuntu0.14.04.1
 -- Versión de PHP: 5.5.9-1ubuntu4.11
 
@@ -28,6 +28,8 @@ SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `alumno` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `semestre_id` int(11) NOT NULL,
+  `seccion_id` int(11) NOT NULL,
   `dni` varchar(8) NOT NULL,
   `nombres` varchar(50) NOT NULL,
   `apellidos` varchar(50) NOT NULL,
@@ -38,14 +40,15 @@ CREATE TABLE IF NOT EXISTS `alumno` (
   `ip` varchar(30) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `dni` (`dni`,`celular`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Volcado de datos para la tabla `alumno`
 --
 
-INSERT INTO `alumno` (`id`, `dni`, `nombres`, `apellidos`, `direccion`, `celular`, `estado`, `creado`, `ip`) VALUES
-(1, '19519519', 'Pedro Rodolfo', 'Alvarez Guedes', 'Por aqui por alla', '12153152136512136', 1, '2015-08-19 01:11:45', '127.0.0.1');
+INSERT INTO `alumno` (`id`, `semestre_id`, `seccion_id`, `dni`, `nombres`, `apellidos`, `direccion`, `celular`, `estado`, `creado`, `ip`) VALUES
+(1, 1, 1, '19519519', 'Pedro Rodolfo', 'Alvarez Guedes', 'Por aqui por alla', '12153152136512136', 1, '2015-08-19 01:11:45', '127.0.0.1'),
+(3, 2, 5, '12312312', 'Pepe Carlos', 'Montoya San Diego', 'Avenida boyaca', '4489498498948', 1, '2015-08-19 13:26:26', '127.0.0.1');
 
 -- --------------------------------------------------------
 
@@ -55,15 +58,27 @@ INSERT INTO `alumno` (`id`, `dni`, `nombres`, `apellidos`, `direccion`, `celular
 
 CREATE TABLE IF NOT EXISTS `alumnoasignatura` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `fecha` date DEFAULT NULL,
+  `descripcion` text NOT NULL,
+  `estrategia` text NOT NULL,
+  `unidad` varchar(20) NOT NULL,
   `creado` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `asignatura_id` int(11) NOT NULL,
   `semestre_id` int(11) NOT NULL,
-  `ponderacion` varchar(10) NOT NULL,
+  `seccion_id` int(11) NOT NULL,
+  `ponderacion` varchar(10) DEFAULT NULL,
   `profesor_id` int(11) NOT NULL,
   `alumno_id` int(11) NOT NULL,
-  `terminado` tinyint(1) NOT NULL,
+  `terminado` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+
+--
+-- Volcado de datos para la tabla `alumnoasignatura`
+--
+
+INSERT INTO `alumnoasignatura` (`id`, `fecha`, `descripcion`, `estrategia`, `unidad`, `creado`, `asignatura_id`, `semestre_id`, `seccion_id`, `ponderacion`, `profesor_id`, `alumno_id`, `terminado`) VALUES
+(5, '2015-08-20', 'La descripción que le toca', 'LA estrategia es la que se', 'unidad 1', '2015-08-19 16:30:47', 5, 2, 5, '0%', 6, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -86,7 +101,7 @@ CREATE TABLE IF NOT EXISTS `asignatura` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `asignatura` (`asignatura`),
   UNIQUE KEY `codigo` (`codigo`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
 -- Volcado de datos para la tabla `asignatura`
@@ -95,7 +110,8 @@ CREATE TABLE IF NOT EXISTS `asignatura` (
 INSERT INTO `asignatura` (`id`, `codigo`, `ht`, `hp`, `th`, `cr`, `asignatura`, `semestre_id`, `estado`, `creado`, `ip`) VALUES
 (1, '12C01', 2, 2, 4, 3, 'CÁLCULO EN UNA VARIANTE', 1, 1, '2015-08-18 17:59:50', '127.0.0.1'),
 (3, '12C02', 2, 2, 4, 3, 'COMUNICACIÓN ORAL Y ESCRITA', 1, 1, '2015-08-18 18:28:48', '127.0.0.1'),
-(4, '12C03', 1, 4, 5, 3, 'ADMINISTRACION GENERAL', 1, 1, '2015-08-18 18:29:18', '127.0.0.1');
+(4, '12C03', 1, 4, 5, 3, 'ADMINISTRACION GENERAL', 1, 1, '2015-08-18 18:29:18', '127.0.0.1'),
+(5, '12C012', 1, 1, 1, 1, 'MATEMÁTICAS', 2, 1, '2015-08-19 14:15:54', '127.0.0.1');
 
 -- --------------------------------------------------------
 
@@ -139,19 +155,23 @@ INSERT INTO `profesor` (`id`, `correo`, `dni`, `password`, `nombres`, `apellidos
 
 CREATE TABLE IF NOT EXISTS `profesorasignatura` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `seccion_id` int(11) NOT NULL,
+  `semestre_id` int(11) NOT NULL,
   `asignatura_id` int(11) NOT NULL,
   `profesor_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
 
 --
 -- Volcado de datos para la tabla `profesorasignatura`
 --
 
-INSERT INTO `profesorasignatura` (`id`, `asignatura_id`, `profesor_id`) VALUES
-(3, 1, 3),
-(4, 0, 3),
-(6, 3, 3);
+INSERT INTO `profesorasignatura` (`id`, `seccion_id`, `semestre_id`, `asignatura_id`, `profesor_id`) VALUES
+(8, 1, 1, 1, 3),
+(9, 1, 1, 4, 3),
+(11, 3, 1, 3, 3),
+(12, 1, 1, 4, 1),
+(13, 5, 2, 5, 6);
 
 -- --------------------------------------------------------
 
@@ -161,11 +181,22 @@ INSERT INTO `profesorasignatura` (`id`, `asignatura_id`, `profesor_id`) VALUES
 
 CREATE TABLE IF NOT EXISTS `seccion` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `asignatura_id` int(11) NOT NULL,
+  `semestre_id` int(11) NOT NULL,
   `seccion` varchar(20) NOT NULL,
   `creado` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+
+--
+-- Volcado de datos para la tabla `seccion`
+--
+
+INSERT INTO `seccion` (`id`, `semestre_id`, `seccion`, `creado`) VALUES
+(1, 1, 'A', '2015-08-19 12:18:00'),
+(2, 1, 'B', '2015-08-19 12:18:00'),
+(3, 1, 'C', '2015-08-19 12:18:02'),
+(5, 2, 'A', '2015-08-19 12:34:52'),
+(6, 3, 'A', '2015-08-19 12:40:01');
 
 -- --------------------------------------------------------
 

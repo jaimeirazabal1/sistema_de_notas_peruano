@@ -1,0 +1,218 @@
+<?php echo Tag::css("mios"); ?>
+
+<div class="alert bg-info">
+	<div class="pull-left">
+		<?php echo Html::img("evaluacion.png","icono de evaluaciones","width='100px'") ?>
+	</div>
+	<div class="pull-left" >
+		<h2 class="titulo_de_imagen"><?php echo $titulo ?></h2>
+	</div>
+	<div class="clearfix"></div>
+	
+	<div class="clearfix"></div>
+	<br>
+	<div class="pull-right">
+
+<!-- Button trigger modal -->
+		<?php echo Html::link("#","<span class=\"glyphicon glyphicon-plus\" aria-hidden=\"true\"></span>  Ingresar nueva evaluacion","class='btn btn-default btn-sm' data-toggle=\"modal\" data-target=\"#myModal\" ") ?>
+	</div>
+	<div class="clearfix"></div>
+
+</div>
+
+<?php View::content() ?>
+
+<!-- Grid -->
+
+<table class="table datatable">
+	<thead>
+		<th>SEMESTRE</th>
+		<th>UNIDAD</th>
+		<th>Estrategia - Descripción</th>
+		<th>ASIGNATURA</th>
+		<th>ALUMNO</th>
+		<th>PONDERACIÓN</th>
+		<th>TERMINADO</th>
+		<th></th>
+	</thead>
+	<?php foreach ($evaluaciones as $key => $value): ?>
+		<tr>
+			<td><?php echo $value->fecha ?></td>
+			<td><?php echo ucfirst($value->unidad) ?></td>
+			<td><?php echo ucfirst($value->estrategia)." - ".$value->descripcion ?></td>
+			<td><?php echo $value->getAsignatura($value->asignatura_id)->asignatura ?></td>
+			<td><?php echo $value->getAlumno($value->alumno_id)->apellidos." ".$value->getAlumno($value->alumno_id)->nombres ?></td>
+			<td><?php echo $value->ponderacion ? $value->ponderacion : "0%" ?></td>
+			<td><?php echo $value->terminado ? "Si" : "No" ?></td>
+			<td><?php echo Html::link("evaluacion/editar/{$value->id}","<span class='glyphicon glyphicon-pencil'></span>","class='btn btn-default btn-sm' title='Editar'") ?></td>
+		</tr>
+	<?php endforeach ?>
+</table>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+  	<?php echo Form::open("evaluacion/nueva","POST") ?>
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Formulario de evaluacion</h4>
+      </div>
+      <div class="modal-body">
+      	<div class="row">
+      		<div class="col-md-3">
+      			<div class="form-group">
+      				<label for="">Semestre</label>
+      				<?php echo Form::dbselect("alumnoasignatura.semestre_id","numero",null,"Semestre","class='form-control' required") ?>
+      			</div>
+      		</div>
+  			<div class="col-md-2">
+  				<div class="form-group">
+      				<label for="">Sección</label>
+      				<?php echo Form::dbselect("alumnoasignatura.seccion_id","seccion",null,"Sección","class='form-control' required") ?>
+      			</div>
+      			
+  			</div>
+	      	<div class="col-md-7">
+  				<div class="form-group">
+      				<label for="">Asignatura</label>
+      				<?php echo Form::dbselect("alumnoasignatura.asignatura_id","asignatura",null,"Asignatura","class='form-control' required") ?>
+      			</div>
+  			</div>
+      	</div>
+      	<div class="row">
+      		
+      		<div class="col-md-6">
+      			<div class="form-group">
+      				<label for="">Estrategia</label>
+				<?php echo Form::text("alumnoasignatura.estrategia","class='form-control' required") ?>
+      			</div>
+				<div class="form-group">
+      				<label for="">Alumno</label>
+      				<?php echo Form::dbselect("alumnoasignatura.alumno_id","alum",array("alumno","getAlumnos"),"Alumno","class='form-control' required") ?>
+      			</div>
+
+      			<div class="form-group">
+      				<label for="">Unidad</label>
+      				<?php echo Form::text("alumnoasignatura.unidad","class='form-control' required") ?>
+      			</div>
+      			<div class="form-group">
+      				<label for="">Ponderación</label>
+      				<?php echo Form::text("alumnoasignatura.ponderacion","class='form-control'") ?>
+      			</div>
+      		</div>
+      		<div class="col-md-6">
+	      		<div class="form-group">
+	      			<label for="">Descripción</label>
+					<?php echo Form::text("alumnoasignatura.descripcion","class='form-control' required") ?>
+	      		</div>
+				<div class="form-group">
+      				<label for="">Profesor</label>
+      				<?php echo Form::dbselect("alumnoasignatura.profesor_id","prof",array("profesor","getProfesores"),"Profesor","class='form-control' required") ?>
+      			</div>
+      			<div class="form-group">
+      				<label for="">Fecha</label>
+      				<?php echo Form::text("alumnoasignatura.fecha","class='form-control datepicker' required") ?>
+      			</div>
+      		</div>
+      	</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+      </div>
+    </div>
+    <?php echo Form::close() ?>
+  </div>
+</div>
+<script type="text/javascript">
+	dejarEnBlanco();
+
+		$(document).ready(function(){
+		dejarEnBlanco();
+		$("#alumnoasignatura_semestre_id").on("change",function(){
+			dejarProfesoresEnBlanco();
+			var id = $(this).val();
+			$("#cargando").css("display","block");
+			$.ajax({
+				url:"../seccion/obtener_secciones_por_semestre/?id="+id,
+				type:"get",
+				dataType:"json",
+				async:false,
+				success:function(r){
+					options = '';
+					for (var i = 0; i < r.length; i++) {
+						options+= "<option value='"+r[i].id+"'>"+r[i].seccion+"</option>";
+					};
+					$("#alumnoasignatura_seccion_id").html(options);
+					$("#cargando").css("display","none");
+					//console.log(r);
+				}
+
+			})
+			$.ajax({
+				url:"../seccion/obtener_asignaturas_por_semestre_alumno/?id="+id,
+				type:"get",
+				dataType:"json",
+				async:false,
+				success:function(r){
+					console.log(r)
+					options = '<option>Seleccione</option>';
+					if (!r.length) {
+						alert("No existen materias registradas para este semestre");
+					};
+					for (var i = 0; i < r.length; i++) {
+						options+= "<option value='"+r[i].id+"'>"+r[i].codigo+"-"+r[i].asignatura+"</option>";
+					};
+					$("#alumnoasignatura_asignatura_id").html(options);
+					$("#cargando").css("display","none");
+					//console.log(r);
+				}
+
+			})
+			$("#alumnoasignatura_asignatura_id,#alumnoasignatura_seccion_id").on("change",function(){
+				var id_asig = $(this).val();
+				var id_semestre = $("#alumnoasignatura_semestre_id").val();
+				var id_seccion = $("#alumnoasignatura_seccion_id").val();
+				$.ajax({
+					url:"../seccion/obtener_profesor_de_asignatura/?semestre_id="+id_semestre+"&seccion_id="+id_seccion+"&id="+id_asig,
+					type:"get",
+					dataType:"json",
+					async:false,
+					success:function(r){
+						console.log(r)
+						options = '';
+						if (!r.length) {
+							alert("No existen profesores para esa asignatura");
+						};
+						for (var i = 0; i < r.length; i++) {
+							options+= "<option value='"+r[i].profesor_id+"'>"+r[i].apellidos+"-"+r[i].nombres+"</option>";
+						};
+						$("#alumnoasignatura_profesor_id").html(options);
+						$("#cargando").css("display","none");
+						//console.log(r);
+					}
+				})
+			})
+		})
+	})
+
+
+
+	function dejarSeccionEnBlanco(){
+		$("#alumnoasignatura_seccion_id").html("<option>Sección</option>");
+	}
+	function dejarAsignaturasEnBlanco(){
+		$("#alumnoasignatura_asignatura_id").html("<option>Asignatura</option>");
+	}
+	function dejarProfesoresEnBlanco(){
+		$("#alumnoasignatura_profesor_id").html("<option>Profesor</option>");
+	}
+	function dejarEnBlanco(){
+		dejarSeccionEnBlanco();
+		dejarAsignaturasEnBlanco();
+		dejarProfesoresEnBlanco();
+	}
+</script>

@@ -17,6 +17,7 @@
 					<th>CODIGO</th>
 					<th>ASIGNATURA</th>
 					<th>SEMESTRE</th>
+					<th>SECCIÖN</th>
 					<th></th>
 				</thead>
 				<?php foreach ($asignaturas as $key => $value): ?>
@@ -24,6 +25,7 @@
 						<td><?php echo $value->codigo ?></td>
 						<td><?php echo $value->asignatura ?></td>
 						<td><?php echo $value->numero ?></td>
+						<td><?php echo $value->seccion ?></td>
 						<th><?php echo Html::link("profesor/eliminarasignatura/$value->id/$value->codigo","<span class='glyphicon glyphicon-remove'></span>","class='btn btn-default btn-xs' title='Quitar'") ?></th>
 					</tr>
 				<?php endforeach ?>
@@ -36,11 +38,16 @@
 	</div>
   	<div class="col-md-6">
   		<center><h3>Asignar Materias</h3></center>
+  		<div id="cargando" style="display:none"><center>
+  			Cargando...
+  		</center></div>
   		<center>
   		<?php echo Form::open("profesor/asignar/{$profesor->id}","post","class='form-inline'") ?>
   			<?php echo Form::hidden("profesorasignatura.profesor_id",null,$profesor->id) ?>
 			<div class="form-group">
-			<?php echo Form::select("profesorasignatura.asignatura_id",$select,"class='form-control'") ?>
+			<?php echo Form::dbselect("profesorasignatura.semestre_id","numero",null,"Semestre","class='form-control' required") ?>
+			<?php echo Form::dbselect("profesorasignatura.seccion_id","seccion",null,"Sección","class='form-control' required") ?>
+			<?php echo Form::select("profesorasignatura.asignatura_id",$select,"class='form-control' required") ?>
 			</div>
 			<?php echo Form::submit("Asignar","class='btn btn-success'") ?>
 		<?php echo Form::close() ?></center>
@@ -48,3 +55,58 @@
 </div>
 <br>
 <?php echo Html::link("profesor/","Lista de Profesores","class='btn btn-default'") ?>
+<script type="text/javascript">
+	$(document).ready(function(){
+		dejarEnBlanco();
+		$("#profesorasignatura_semestre_id").on("change",function(){
+			var id = $(this).val();
+			$("#cargando").css("display","block");
+			$.ajax({
+				url:"../../seccion/obtener_secciones_por_semestre/?id="+id,
+				type:"get",
+				dataType:"json",
+				async:false,
+				success:function(r){
+					options = '';
+					for (var i = 0; i < r.length; i++) {
+						options+= "<option value='"+r[i].id+"'>"+r[i].seccion+"</option>";
+					};
+					$("#profesorasignatura_seccion_id").html(options);
+					$("#cargando").css("display","none");
+					//console.log(r);
+				}
+
+			})
+			$.ajax({
+				url:"../../seccion/obtener_asignaturas_por_semestre/?profesor_id="+$("#profesorasignatura_profesor_id").val()+"&id="+id,
+				type:"get",
+				dataType:"json",
+				async:false,
+				success:function(r){
+					console.log(r)
+					options = '';
+					if (!r.length) {
+						alert("No existen materias registradas para este semestre");
+					};
+					for (var i = 0; i < r.length; i++) {
+						options+= "<option value='"+r[i].id+"'>"+r[i].codigo+"-"+r[i].asignatura+"</option>";
+					};
+					$("#profesorasignatura_asignatura_id").html(options);
+					$("#cargando").css("display","none");
+					//console.log(r);
+				}
+
+			})
+		})
+	})
+	function dejarSeccionEnBlanco(){
+		$("#profesorasignatura_seccion_id").html("<option>Sección</option>");
+	}
+	function dejarAsignaturasEnBlanco(){
+		$("#profesorasignatura_asignatura_id").html("<option>Asignatura</option>");
+	}
+	function dejarEnBlanco(){
+		dejarSeccionEnBlanco();
+		dejarAsignaturasEnBlanco();
+	}
+</script>

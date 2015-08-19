@@ -1,0 +1,32 @@
+<?php View::content() ?>
+<?php if (isset($informacion_alumno)): ?>
+	<?php if (empty($informacion_alumno)): ?>
+		<?php Flash::info("No hay evaluaciones asignadas") ?>
+	<?php endif ?>
+	<table class="table datatable">
+		<thead>
+			<th>Fecha</th>
+			<th>Estrategia - Descripcion</th>
+			<th>Unidad</th>
+			<th>Asignatura</th>
+			<th>Semestre</th>
+			<th>Seccion</th>
+			<th>Profesor</th>
+			<th>Ponderación</th>
+			<th>Terminado</th>
+		</thead>
+		<?php foreach ($informacion_alumno as $key => $value): ?>
+			<tr>
+				<td><?php echo $value->fecha ?></td>
+				<td><?php echo ucfirst($value->estrategia)." - ".ucfirst($value->descripcion) ?></td>
+				<td><?php echo ucfirst($value->unidad) ?></td>
+				<td><?php echo ucfirst($value->asignatura) ?></td>
+				<td><?php echo ucfirst($value->numero) ?></td>
+				<td><?php echo ucfirst($value->seccion) ?></td>
+				<td><?php echo ucfirst($value->apellidos)." ".ucfirst($value->nombres) ?></td>
+				<td><?php echo $value->ponderacion ?></td>
+				<td><?php echo $value->terminado ? "Si" : "No" ?></td>
+			</tr>
+		<?php endforeach ?>
+	</table>
+<?php endif ?>

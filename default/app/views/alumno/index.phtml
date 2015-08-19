@@ -8,14 +8,7 @@
 		<h2 class="titulo_de_imagen"><?php echo $titulo ?></h2>
 	</div>
 	<div class="clearfix"></div>
-	<div class="pull-right">
-		<form class="form-inline" method="post">
-		  <div class="form-group">
-		    <input type="text" class="form-control input-sm" id="alumno" placeholder="Buscar Alumno">
-		  </div>
-		  <button type="submit" class="btn btn-default btn-sm">Buscar</button>
-		</form>
-	</div>
+	
 	<div class="clearfix"></div>
 	<br>
 	<div class="pull-right">
@@ -36,6 +29,8 @@
 		<th>DIRECCION</th>
 		<th>CELULAR N°</th>
 		<th>ESTADO</th>
+		<th>Semestre</th>
+		<th>Sección</th>
 		<th></th>
 	</thead>
 	<?php foreach ($alumnos as $key => $value): ?>
@@ -45,6 +40,8 @@
 			<td><?php echo ucfirst($value->direccion) ?></td>
 			<td><?php echo ucfirst($value->celular) ?></td>
 			<td><?php echo ucfirst($value->getEstado($value->estado)) ?></td>
+			<td><?php echo ucfirst($value->numero) ?></td>
+			<td><?php echo ucfirst($value->seccion) ?></td>
 			<td><?php echo Html::link("alumno/editar/{$value->id}","<span class='glyphicon glyphicon-pencil'></span>","class='btn btn-default btn-sm' title='Editar'") ?></td>
 		</tr>
 	<?php endforeach ?>
@@ -76,6 +73,10 @@
 		      		<label>Direccion</label>
 		      		<?php echo Form::text("alumno.direccion","class='form-control' maxlength=\"50\" ") ?>
 		      	</div>
+		      	<div class="form-group">
+		      		<label>Semestre</label>
+		      		<?php echo Form::dbselect("alumno.semestre_id",null,null,"Seleccione","class='form-control' title='Al cambiar el semestre se cambian las secciones'") ?>
+		      	</div>
       		</div>
   			<div class="col-md-6">
   				
@@ -93,6 +94,11 @@
 		      		<label>Celular</label>
 		      		<?php echo Form::text("alumno.celular","class='form-control' maxlength=\"25\" ") ?>
 		      	</div>
+		      	<div class="form-group">
+		      		<label>Sección</label>
+		      		<div id="cargando_secciones" style="display:none">Cargando Secciones...</div>
+		      		<?php echo Form::dbselect("alumno.seccion_id","seccion",null,"Seleccione","class='form-control'") ?>
+		      	</div>
   			</div>
 	      	
       	</div>
@@ -105,3 +111,27 @@
     <?php echo Form::close() ?>
   </div>
 </div>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#alumno_semestre_id").on("change",function(){
+			var id = $(this).val();
+			$("#cargando_secciones").css("display","block");
+			$.ajax({
+				url:"../seccion/obtener_secciones_por_semestre/?id="+id,
+				type:"get",
+				dataType:"json",
+				async:false,
+				success:function(r){
+					options = '';
+					for (var i = 0; i < r.length; i++) {
+						options+= "<option value='"+r[i].id+"'>"+r[i].seccion+"</option>";
+					};
+					$("#alumno_seccion_id").html(options);
+					$("#cargando_secciones").css("display","none");
+					//console.log(r);
+				}
+
+			})
+		})
+	})
+</script>
