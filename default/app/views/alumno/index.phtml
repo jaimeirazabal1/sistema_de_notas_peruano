@@ -19,8 +19,89 @@
 	<div class="clearfix"></div>
 	<br>
 	<div class="pull-right">
-		<?php echo Html::link("alumno/nuevo","<span class=\"glyphicon glyphicon-plus\" aria-hidden=\"true\"></span>  Ingresar nuevo alumno","class='btn btn-default btn-sm'") ?>
+		<?php echo Html::link("#","<span class=\"glyphicon glyphicon-plus\" aria-hidden=\"true\"></span>  Ingresar nuevo alumno","class='btn btn-default btn-sm' data-toggle=\"modal\" data-target=\"#myModal\" ") ?>
 	</div>
 	<div class="clearfix"></div>
 
+</div>
+
+<?php View::content() ?>
+
+<!-- Grid -->
+
+<table class="table datatable">
+	<thead>
+		<th>DNI N°</th>
+		<th>APELLIDOS Y NOMBRES</th>
+		<th>DIRECCION</th>
+		<th>CELULAR N°</th>
+		<th>ESTADO</th>
+		<th></th>
+	</thead>
+	<?php foreach ($alumnos as $key => $value): ?>
+		<tr>
+			<td><?php echo $value->dni ?></td>
+			<td><?php echo strtoupper($value->apellidos)." ".ucfirst($value->nombres) ?></td>
+			<td><?php echo ucfirst($value->direccion) ?></td>
+			<td><?php echo ucfirst($value->celular) ?></td>
+			<td><?php echo ucfirst($value->getEstado($value->estado)) ?></td>
+			<td><?php echo Html::link("alumno/editar/{$value->id}","<span class='glyphicon glyphicon-pencil'></span>","class='btn btn-default btn-sm' title='Editar'") ?></td>
+		</tr>
+	<?php endforeach ?>
+</table>
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+  	<?php echo Form::open("alumno/nuevo","POST") ?>
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Formulario de alumno</h4>
+      </div>
+      <div class="modal-body">
+      	<div class="row">
+      		<div class="col-md-6">
+      			<div class="form-group">
+		      		<label>DNI Nº</label>
+		      		<?php echo Form::text("alumno.dni","class='form-control' maxlength=\"8\" ") ?>
+		      	</div>
+		      	<div class="form-group">
+		      		<label>Nombres</label>
+		      		<?php echo Form::text("alumno.nombres","class='form-control' maxlength=\"50\" ") ?>
+		      	</div>
+		      	
+		      	<div class="form-group">
+		      		<label>Direccion</label>
+		      		<?php echo Form::text("alumno.direccion","class='form-control' maxlength=\"50\" ") ?>
+		      	</div>
+      		</div>
+  			<div class="col-md-6">
+  				
+		      	
+		      	<div class="form-group">
+		      		<label>Estado</label>
+		      		<?php echo Form::select("alumno.estado",array("1"=>"Activo","0"=>"No Activo"),"class='form-control'") ?>
+		      	</div>
+		      	<div class="form-group">
+		      		<label>Apellidos</label>
+		      		<?php echo Form::text("alumno.apellidos","class='form-control' maxlength=\"50\" ") ?>
+		      	</div>
+
+		      	<div class="form-group">
+		      		<label>Celular</label>
+		      		<?php echo Form::text("alumno.celular","class='form-control' maxlength=\"25\" ") ?>
+		      	</div>
+  			</div>
+	      	
+      	</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+      </div>
+    </div>
+    <?php echo Form::close() ?>
+  </div>
 </div>
