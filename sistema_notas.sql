@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 19-08-2015 a las 15:35:40
+-- Tiempo de generación: 20-08-2015 a las 12:10:37
 -- Versión del servidor: 5.5.44-0ubuntu0.14.04.1
 -- Versión de PHP: 5.5.9-1ubuntu4.11
 
@@ -116,6 +116,20 @@ INSERT INTO `asignatura` (`id`, `codigo`, `ht`, `hp`, `th`, `cr`, `asignatura`, 
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `incripcionalumnoasignatura`
+--
+
+CREATE TABLE IF NOT EXISTS `incripcionalumnoasignatura` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `creado` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `profesorasignatura_id` int(11) NOT NULL,
+  `alumno_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `profesor`
 --
 
@@ -144,7 +158,7 @@ CREATE TABLE IF NOT EXISTS `profesor` (
 
 INSERT INTO `profesor` (`id`, `correo`, `dni`, `password`, `nombres`, `apellidos`, `direccion`, `celular`, `tipo_usuario`, `estado`, `creado`, `fnacimiento`, `especialidad`, `ip`) VALUES
 (1, 'correo1@gmail.com', '16923509', 'e1f5e60b6d3dfa77b09e1c8daa8fa0ce', 'Pepito Alonzo', 'Camacaro Mendoza', 'Qta Tucan', '04143299925', '0', 1, '2015-08-18 15:50:04', '1969-12-31', 'Desarrollador', '127.0.0.1'),
-(3, 'correo2@gmail.com', '16923501', '6d293fbe794b83f9f4a840c192c486f7', 'Pedro Ronald', 'Jaramillo Ruiz', 'Avenida este con oeste', '04143319808', '1', 1, '2015-08-18 16:17:39', '1940-03-15', 'Matemáticas', '127.0.0.1'),
+(3, 'correo2@gmail.com', '16923501', '7d3ff5e583a1727c07bd911d427b514b', 'Pedro Ronald', 'Jaramillo Ruiz', 'Avenida este con oeste', '04143319808', '1', 1, '2015-08-18 16:17:39', '1940-03-15', 'Matemáticas', '127.0.0.1'),
 (6, 'putito@putito.com', '19819898', 'd815366c423ac5e0f286ca7bd0c7c007', 'Charlie Pedro', 'Mata Gente', 'Santiago leon', '198198198198198198', '1', 1, '2015-08-18 17:31:30', '1969-02-28', 'Putito', '127.0.0.1');
 
 -- --------------------------------------------------------
@@ -172,6 +186,33 @@ INSERT INTO `profesorasignatura` (`id`, `seccion_id`, `semestre_id`, `asignatura
 (11, 3, 1, 3, 3),
 (12, 1, 1, 4, 1),
 (13, 5, 2, 5, 6);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `profesorevaluacion`
+--
+
+CREATE TABLE IF NOT EXISTS `profesorevaluacion` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `profesorasignatura_id` int(11) NOT NULL,
+  `unidad` varchar(30) NOT NULL,
+  `tipoevaluacion` varchar(100) NOT NULL,
+  `porcentaje` varchar(4) NOT NULL,
+  `fecha` date NOT NULL,
+  `creado` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+
+--
+-- Volcado de datos para la tabla `profesorevaluacion`
+--
+
+INSERT INTO `profesorevaluacion` (`id`, `profesorasignatura_id`, `unidad`, `tipoevaluacion`, `porcentaje`, `fecha`, `creado`) VALUES
+(1, 8, 'unidad 1', 'examen escrito', '30%', '2015-08-31', '2015-08-20 14:50:42'),
+(8, 8, 'Unidad 2', 'Prueba oral', '40%', '2015-09-03', '2015-08-20 15:07:25'),
+(10, 8, 'Unidad 2', 'Prueba oral', '20%', '2015-09-03', '2015-08-20 15:08:50'),
+(11, 8, 'Unidad 2', 'Trabajo Escrito', '10%', '2015-09-11', '2015-08-20 15:09:04');
 
 -- --------------------------------------------------------
 
