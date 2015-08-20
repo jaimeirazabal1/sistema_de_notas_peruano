@@ -1,7 +1,8 @@
 <?php 
-Load::models("alumnoasignatura","semestre","seccion");
+Load::models("alumnoasignatura","semestre","seccion","incripcionalumnoasignatura","profesorasignatura");
 class EvaluacionController extends AppController{
 	public function index(){
+		Router::redirect("evaluacion/inscripcion");
 		$evaluaciones = new Alumnoasignatura();
 		$this->titulo = "Control de Evaluaciones";
 		$this->evaluaciones = $evaluaciones->find();
@@ -31,6 +32,12 @@ class EvaluacionController extends AppController{
 		}
 		$this->alumnoasignatura = $evaluaciones->find($id);
 		$this->secciones = $secciones->getSeccionesBySemestreId($this->alumnoasignatura->semestre_id);
+	}
+	public function inscripcion(){
+		$this->titulo = "Control de Inscripción";
+		$incripcionalumnoasignatura = new Incripcionalumnoasignatura();
+		$profesorasignatura = new Profesorasignatura();
+		$this->profesorasignatura = $profesorasignatura->getProfesorAsignatura();
 	}
 }
 

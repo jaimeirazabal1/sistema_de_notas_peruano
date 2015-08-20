@@ -3,7 +3,7 @@ Load::models("asignatura");
 class Profesorasignatura extends ActiveRecord{
 	public function getAsignaturasByProfesorId($profesor_id){
 
-		$query = "SELECT asignatura.codigo, asignatura.asignatura, semestre.numero, profesor.id, seccion.seccion
+		$query = "SELECT profesorasignatura.id as profesorasignatura_id, asignatura.codigo, asignatura.asignatura, semestre.numero, profesor.id, seccion.seccion
 		 		  from profesorasignatura 
 		 		  inner join asignatura 
 		 		  	on profesorasignatura.asignatura_id = asignatura.id 
@@ -53,6 +53,59 @@ class Profesorasignatura extends ActiveRecord{
 						inner join profesorasignatura on profesorasignatura.profesor_id = profesor.id 
 						where profesorasignatura.asignatura_id = '$asignatura_id' and profesorasignatura.semestre_id = '$semestre_id' and profesorasignatura.seccion_id = '$seccion_id'";
 		return $this->find_all_by_sql($query);
+	}
+
+	public function getById($id){
+		return $this->find_all_by_sql("SELECT 
+										profesorasignatura.id as profesorasignatura_id,
+										asignatura.id as asignatura_id, 
+										asignatura.codigo, 
+										asignatura.asignatura 
+										from profesorasignatura
+									 	inner join asignatura on profesorasignatura.asignatura_id = asignatura.id 
+									 	where profesorasignatura.id ='$id'");
+
+	}
+
+	public function getProfesorAsignaturaByid($id){
+		$query = "SELECT 
+					profesorasignatura.id as profesorasignatura_id,
+					seccion.seccion,
+					semestre.numero,
+					asignatura.id as asignatura_id,
+					asignatura.codigo as asignatura_codigo,
+					asignatura.asignatura,
+					profesor.nombres,
+					profesor.apellidos
+				from profesorasignatura
+				inner join seccion on seccion.id  = profesorasignatura.seccion_id
+				inner join semestre on semestre.id = profesorasignatura.semestre_id
+				inner join asignatura on asignatura.id = profesorasignatura.asignatura_id
+				inner join profesor on profesor.id = profesorasignatura.profesor_id
+				where profesorasignatura.id = '$id'";
+
+		$r = $this->find_all_by_sql($query);
+		return $r;
+	}
+
+		public function getProfesorAsignatura(){
+		$query = "SELECT 
+					profesorasignatura.id as profesorasignatura_id,
+					seccion.seccion,
+					semestre.numero,
+					asignatura.id as asignatura_id,
+					asignatura.codigo as asignatura_codigo,
+					asignatura.asignatura,
+					profesor.nombres,
+					profesor.apellidos
+				from profesorasignatura
+				inner join seccion on seccion.id  = profesorasignatura.seccion_id
+				inner join semestre on semestre.id = profesorasignatura.semestre_id
+				inner join asignatura on asignatura.id = profesorasignatura.asignatura_id
+				inner join profesor on profesor.id = profesorasignatura.profesor_id";
+
+		$r = $this->find_all_by_sql($query);
+		return $r;
 	}
 }
 

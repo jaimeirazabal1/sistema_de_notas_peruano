@@ -1,0 +1,24 @@
+<?php View::content() ?>
+<div class="row">
+<div class="col-md-4"></div>
+	<div class="col-md-4">
+		<?php echo Form::open() ?>
+		<div class="form-group">
+			<label for="">Contraseña Anterior</label>
+			<?php echo Form::hidden("profesor.id") ?>
+			<?php echo Form::pass("pass1","class='form-control'") ?>
+		</div>
+		<div class="form-group">
+			<label for="">Contraseña Nueva</label>
+			<?php echo Form::pass("profesor.password","class='form-control'") ?>
+		</div>
+		<div class="form-group">
+			<label for="">Repetir Contraseña Nueva</label>
+			<?php echo Form::pass("profesor.password2","class='form-control'") ?>
+		</div>
+		<input type="submit" class="btn btn-default">
+		<?php echo Form::close() ?>
+	</div>
+  	<div class="col-md-4"></div>
+	
+</div>

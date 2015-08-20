@@ -41,6 +41,10 @@ class Profesor extends ActiveRecord{
 	public function getProfesores(){
 		return $this->find_all_by_sql("select id, CONCAT(nombres,' ',apellidos) as prof from profesor");
 	}
+
+	public function encriptar($p){
+		return md5($p);
+	}
 }
 
 ?>

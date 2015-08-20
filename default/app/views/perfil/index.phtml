@@ -1,4 +1,5 @@
 <?php View::content() ?>
+
 <?php if (isset($informacion_alumno)): ?>
 	<?php if (empty($informacion_alumno)): ?>
 		<?php Flash::info("No hay evaluaciones asignadas") ?>
@@ -30,3 +31,32 @@
 		<?php endforeach ?>
 	</table>
 <?php endif ?>
+
+
+<?php if(isset($docente) and isset($asignaturas)): ?>
+	<?php echo Tag::css("mios"); ?>
+	<div class="alert bg-info">
+		<div class="pull-left">
+			<?php echo Html::img("salon.png","icono de secciones","width='100px'") ?>
+		</div>
+		<div class="pull-left" >
+			<h2 class="titulo_de_imagen"><?php echo $titulo ?></h2>
+		</div>
+		<div class="clearfix"></div>
+		
+		<div class="clearfix"></div>
+		<br>
+		<div class="pull-right">
+		<div class="clearfix"></div>
+
+	</div>
+	
+	<ul class="list-group">
+	<?php foreach ($asignaturas as $key => $value): ?>
+		<li class="list-group-item">
+			<?php echo Html::link("perfil/programarevaluaciones/{$value->profesorasignatura_id}","<span class='glyphicon glyphicon-ok'></span> Semestre ".$value->numero." : Sección: ".$value->seccion." - ".$value->codigo." - ".$value->asignatura,"class='btn btn-default'") ?>
+		</li>
+	<?php endforeach ?>
+	</ul>
+<?php View::content() ?>
+<?php endif; ?>

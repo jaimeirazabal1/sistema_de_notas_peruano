@@ -1,0 +1,73 @@
+<?php echo Tag::css("mios"); ?>
+
+<div class="alert bg-info">
+	<div class="pull-left">
+		<?php echo Html::img("evaluacion.png","icono de evaluaciones","width='100px'") ?>
+	</div>
+	<div class="pull-left" >
+		<h2 class="titulo_de_imagen"><?php echo $titulo ?></h2>
+	</div>
+	<div class="clearfix"></div>
+	
+	<div class="clearfix"></div>
+	<br>
+	<div class="pull-right">
+
+<!-- Button trigger modal -->
+		<?php echo Html::link("#","<span class=\"glyphicon glyphicon-plus\" aria-hidden=\"true\"></span>  Ingresar nueva evaluacion","class='btn btn-default btn-sm' data-toggle=\"modal\" data-target=\"#myModal\" ") ?>
+	</div>
+	<div class="clearfix"></div>
+
+</div>
+
+<?php View::content() ?>
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+  	<?php echo Form::open("evaluacion/nueva","POST") ?>
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Formulario de inscripción</h4>
+      </div>
+      <div class="modal-body">
+      	
+      	<div class="row">
+      		
+      		<div class="col-md-6">
+      			<table class="table datatable">
+                 <thead>
+                   <th>Semestre</th>
+                   <th>Sección</th>
+                   <th>Codigo Asig</th>
+                   <th>Asig.</th>
+                   <th>Prof.</th>
+                 </thead>
+                 <?php foreach ($profesorasignatura as $key => $value): ?>
+                   <tr>
+                     <td><?php echo $value->numero ?></td>
+                     <td><?php echo $value->seccion ?></td>
+                     <td><?php echo $value->codigo ?></td>
+                     <td><?php echo $value->asignatura ?></td>
+                     <td><?php echo ucfirst($value->nombres)." ".ucfirst($value->apellidos) ?></td>
+                   </tr>
+                 <?php endforeach ?>
+            </table>
+      		</div>
+      		<div class="col-md-6">
+      			<?php echo Form::dbselect("incripcionalumnoasignatura.alumno_id","alum",array("alumno","getAlumnos"),"Alumno","class='form-control' required") ?>
+      		</div>
+      	</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+      </div>
+    </div>
+    <?php echo Form::close() ?>
+  </div>
+</div>

@@ -1,13 +1,24 @@
 <?php if (Auth::is_valid()): ?>
   <ul class="nav nav-pills">
   	<?php $controlador = Router::get("controller") ?>
-  	<?php if ($controlador == "perfil"): ?>
-    		<li role="presentation" class='active'><?php echo Html::link("perfil/","Perfil") ?></li>
-  	<?php else: ?>
-  		<li role="presentation"><?php echo Html::link("perfil/","Perfil") ?></li>
-  	<?php endif ?>
+
+    <?php if (Auth::get("tipousuario") == "docente" or Auth::get("tipousuario") == "administrador"): ?>
+      <li role="presentation" class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+          Hola <?php echo Auth::get("apellidos")." ".Auth::get("nombres") ?> <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li role="presentation"><?php echo Html::link("perfil/actualizar/".Auth::get("id"),"Actualizar Información") ?></li>
+          <li role="presentation"><?php echo Html::link("perfil/cambiarpass/".Auth::get("id"),"Cambiar Contraseña") ?></li>
+          <?php if (Auth::get("tipousuario") == "docente"): ?>
+            <li role="presentation"><?php echo Html::link("perfil/","Mis Cursos Asignados") ?></li>
+          <?php endif; ?>
+        </ul>
+      </li>
+    <?php endif; ?>
+    
     <?php if (Auth::get("tipousuario") == "administrador"): ?>
-      
+      <!-- ADMINISTRADOR -->
     	<?php if ($controlador == "profesor"): ?>
      		<li role="presentation" class='active'><?php echo Html::link("profesor/","Profesores") ?></li>
       	<?php else: ?>
@@ -35,6 +46,8 @@
         <?php endif ?>
         
     <?php endif ?>
-    <li role="presentation"><?php echo Html::link("perfil/logout","Salir","class='btn btn-danger'") ?></li>
+
+
+    <li role="presentation"><?php echo Html::link("perfil/logout","Salir") ?></li>
   </ul>
 <?php endif ?>
