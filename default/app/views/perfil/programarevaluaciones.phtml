@@ -35,7 +35,7 @@
 			<td><?php echo $value->tipoevaluacion ?></td>
 			<td><?php echo $value->porcentaje ?></td>
 			<td><?php echo $value->fecha ?></td>
-			<td><?php echo Html::link("/{$value->profesorasignatura_id}","Calificar","class='btn btn-default'") ?></td>
+			<td><?php echo Html::link("calificar/grupo/{$value->id}","Calificar","class='btn btn-default'") ?></td>
 		</tr>
 	<?php endforeach ?>
 </table>

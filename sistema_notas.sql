@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 20-08-2015 a las 12:10:37
+-- Tiempo de generación: 20-08-2015 a las 15:46:29
 -- Versión del servidor: 5.5.44-0ubuntu0.14.04.1
 -- Versión de PHP: 5.5.9-1ubuntu4.11
 
@@ -83,6 +83,20 @@ INSERT INTO `alumnoasignatura` (`id`, `fecha`, `descripcion`, `estrategia`, `uni
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `alumnoevaluacion`
+--
+
+CREATE TABLE IF NOT EXISTS `alumnoevaluacion` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `incripcionalumnoasignatura_id` int(11) NOT NULL,
+  `profesorevaluacion_id` int(11) NOT NULL,
+  `ponderacion` varchar(3) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `asignatura`
 --
 
@@ -125,7 +139,16 @@ CREATE TABLE IF NOT EXISTS `incripcionalumnoasignatura` (
   `profesorasignatura_id` int(11) NOT NULL,
   `alumno_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+
+--
+-- Volcado de datos para la tabla `incripcionalumnoasignatura`
+--
+
+INSERT INTO `incripcionalumnoasignatura` (`id`, `creado`, `profesorasignatura_id`, `alumno_id`) VALUES
+(1, '2015-08-20 18:49:44', 8, 1),
+(2, '2015-08-20 19:18:55', 9, 3),
+(3, '2015-08-20 19:19:22', 9, 3);
 
 -- --------------------------------------------------------
 

@@ -38,6 +38,15 @@ class EvaluacionController extends AppController{
 		$incripcionalumnoasignatura = new Incripcionalumnoasignatura();
 		$profesorasignatura = new Profesorasignatura();
 		$this->profesorasignatura = $profesorasignatura->getProfesorAsignatura();
+		if (Input::haspost("incripcionalumnoasignatura")) {
+			$inscripcion = new Incripcionalumnoasignatura(Input::post("incripcionalumnoasignatura"));
+			if ($inscripcion->save()) {
+				Flash::valid("Inscripción realizada");
+			}else{
+				Flash::error("No se realizó la inscripción");
+			}
+		}
+		$this->incripcionalumnoasignatura = $incripcionalumnoasignatura->getInscripciones();
 	}
 }
 
