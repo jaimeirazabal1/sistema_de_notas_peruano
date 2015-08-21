@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 20-08-2015 a las 20:02:53
+-- Tiempo de generación: 21-08-2015 a las 12:10:29
 -- Versión del servidor: 5.5.44-0ubuntu0.14.04.1
 -- Versión de PHP: 5.5.9-1ubuntu4.11
 
@@ -99,7 +99,7 @@ CREATE TABLE IF NOT EXISTS `alumnoevaluacion` (
   `profesorevaluacion_id` int(11) NOT NULL,
   `ponderacion` varchar(3) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=34 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=38 ;
 
 --
 -- Volcado de datos para la tabla `alumnoevaluacion`
@@ -107,7 +107,7 @@ CREATE TABLE IF NOT EXISTS `alumnoevaluacion` (
 
 INSERT INTO `alumnoevaluacion` (`id`, `incripcionalumnoasignatura_id`, `profesorevaluacion_id`, `ponderacion`) VALUES
 (1, 1, 1, '20'),
-(2, 10, 12, '5'),
+(2, 10, 12, '3'),
 (3, 5, 12, '10'),
 (4, 7, 12, '15'),
 (5, 11, 12, '5'),
@@ -138,7 +138,11 @@ INSERT INTO `alumnoevaluacion` (`id`, `incripcionalumnoasignatura_id`, `profesor
 (30, 9, 15, '15'),
 (31, 6, 15, '4'),
 (32, 4, 15, '2'),
-(33, 8, 15, '10');
+(33, 8, 15, '10'),
+(34, 1, 8, '0'),
+(35, 1, 10, '0'),
+(36, 1, 11, '0'),
+(37, 1, 8, '0');
 
 -- --------------------------------------------------------
 

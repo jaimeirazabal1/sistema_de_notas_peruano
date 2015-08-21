@@ -57,10 +57,11 @@ class PerfilController extends AppController{
 	public function index(){
 		$tipo = Auth::get("tipousuario");
         if ($tipo == "alumno") {
-
+            $profesorasignatura = new Profesorasignatura();
             $alumnoasignatura = new Alumnoasignatura();
             $id_alumno = Auth::get("id");
-            $this->informacion_alumno = $alumnoasignatura->getDatosByAlumnoId($id_alumno);
+          
+            $this->informacion_alumno = $profesorasignatura->getNotasDeAlumnoByAlumnoId($id_alumno);
         }
         if ($tipo == "docente") {
             $profesorasignatura = new Profesorasignatura();
@@ -127,7 +128,11 @@ class PerfilController extends AppController{
         
         $this->alumnoevaluacion = new Alumnoevaluacion();
 
+        $this->profesorasignatura_id = $profesorasignatura_id;
+
         $this->asignatura = $profesorasignatura->getById($profesorasignatura_id);
+
+        $this->notasalumnos = $profesorasignatura->getNotasAsignaturaConAlumnosByProfesorAsignaturaId($profesorasignatura_id);
 
         if (Input::haspost("profesorevaluacion")) {
             $inputs = Input::post("profesorevaluacion");
@@ -142,6 +147,11 @@ class PerfilController extends AppController{
         }
 
         $this->evaluaciones = $profesorevaluacion_lista->find("conditions: profesorasignatura_id = '$profesorasignatura_id'");
+
+        if (!$this->evaluaciones and !isset($_SEESION['notas_puestas_en_cero'])) {
+            $_SESSION['se_actualizaran_notas_a_cero'] = 1;
+            Router::redirect("calificar/grupo/{$this->evaluaciones[0]->id}/{$this->evaluaciones[0]->profesorasignatura_id}");
+        }
 
     }
 }

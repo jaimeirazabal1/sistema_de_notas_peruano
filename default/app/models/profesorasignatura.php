@@ -107,6 +107,106 @@ class Profesorasignatura extends ActiveRecord{
 		$r = $this->find_all_by_sql($query);
 		return $r;
 	}
+
+	public function getNotasAsignaturaConAlumnosByProfesorAsignaturaId($id,$order = " order by unidad",$group=' group by alumno.dni'){
+
+		$query = "SELECT 
+					alumno.id as alumno_id,
+					alumno.*,
+					alumnoevaluacion.ponderacion,
+					profesorevaluacion.porcentaje,
+					profesorevaluacion.unidad,
+					profesorevaluacion.tipoevaluacion,
+					profesorevaluacion.fecha
+
+				from alumnoevaluacion 
+
+				inner join profesorevaluacion
+					on alumnoevaluacion.profesorevaluacion_id = profesorevaluacion.id
+
+				inner join incripcionalumnoasignatura 
+					on incripcionalumnoasignatura.id = alumnoevaluacion.incripcionalumnoasignatura_id
+
+				inner join alumno 
+					on alumno.id = incripcionalumnoasignatura.alumno_id
+
+				inner join profesorasignatura
+					on profesorasignatura.id = incripcionalumnoasignatura.profesorasignatura_id
+
+				where incripcionalumnoasignatura.profesorasignatura_id = '$id'";
+
+		$query.=$group;
+		$query.=$order;
+
+
+		return $this->find_all_by_sql($query);
+	}
+
+		public function getNotasAsignaturaConAlumnosByProfesorAsignaturaIdAndAlumnoId($id,$order = " order by unidad", $alumno_id){
+
+		$query = "SELECT 
+					alumno.id as alumno_id,
+					alumno.*,
+					alumnoevaluacion.ponderacion,
+					profesorevaluacion.unidad,
+					profesorevaluacion.porcentaje,
+					profesorevaluacion.tipoevaluacion,
+					profesorevaluacion.fecha
+
+				from alumnoevaluacion 
+
+				inner join profesorevaluacion
+					on alumnoevaluacion.profesorevaluacion_id = profesorevaluacion.id
+
+				inner join incripcionalumnoasignatura 
+					on incripcionalumnoasignatura.id = alumnoevaluacion.incripcionalumnoasignatura_id
+
+				inner join alumno 
+					on alumno.id = incripcionalumnoasignatura.alumno_id
+
+				inner join profesorasignatura
+					on profesorasignatura.id = incripcionalumnoasignatura.profesorasignatura_id
+
+				where incripcionalumnoasignatura.profesorasignatura_id = '$id' and alumno.id='$alumno_id'";
+
+		$query.=$order;
+
+		return $this->find_all_by_sql($query);
+	}
+
+	public function getNotasDeAlumnoByAlumnoId($id){
+		$query = "SELECT 
+					alumno.id as alumno_id,
+					alumno.*,
+					profesor.nombres as profesor_nombres,
+					profesor.apellidos as profesor_apellidos,
+					alumnoevaluacion.ponderacion,
+					profesorevaluacion.unidad,
+					profesorevaluacion.porcentaje,
+					profesorevaluacion.tipoevaluacion,
+					profesorevaluacion.fecha
+
+				from alumnoevaluacion 
+
+				inner join profesorevaluacion
+					on alumnoevaluacion.profesorevaluacion_id = profesorevaluacion.id
+
+				inner join incripcionalumnoasignatura 
+					on incripcionalumnoasignatura.id = alumnoevaluacion.incripcionalumnoasignatura_id
+
+				inner join alumno 
+					on alumno.id = incripcionalumnoasignatura.alumno_id
+
+				inner join profesorasignatura
+					on profesorasignatura.id = incripcionalumnoasignatura.profesorasignatura_id
+				inner join profesor
+					on profesor.id = profesorasignatura.profesor_id
+
+				where  alumno.id='$id'";
+
+		return $this->find_all_by_sql($query);
+
+	}
 }
 
  ?>
