@@ -20,7 +20,40 @@ class AppController extends Controller
 
     final protected function initialize()
     {
+    	$controller = Router::get("controller");
     	
+    	$action = Router::get("action");
+    	
+    	$ruta = $controller."/".$action;
+    	
+    	$tipousuario = Auth::get("tipousuario");
+
+    	if (Auth::is_valid()) {
+    		if ($tipousuario == "alumno") {
+    			if ($ruta != "perfil/index" and $ruta != "perfil/logout") {
+    				Flash::warning("Acceso Denegado");
+    				Router::redirect("perfil/");
+    			}
+    		}
+    		if ($tipousuario == "docente") {
+    			$permisos = array("perfil/actualizar",
+    								"perfil/cambiarpass",
+    								"perfil/index",
+    								"perfil/programarevaluaciones",
+    								"calificar/grupo",
+    								"perfil/logout");
+
+    			if (!in_array($ruta, $permisos)) {
+    				Flash::warning("Acceso Denegado");
+    				Router::redirect("perfil/");
+    			}
+    		}
+    	}else{
+    		if ($ruta != 'index/index' and $ruta != 'perfil/logout' ) {
+    			Flash::warning("Acceso Denegado");
+    			Router::redirect("index/index");
+    		}
+    	}
     }
 
     final protected function finalize()
