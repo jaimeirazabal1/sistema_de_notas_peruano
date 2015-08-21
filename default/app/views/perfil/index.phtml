@@ -1,34 +1,40 @@
 <?php View::content() ?>
-
-<?php if (isset($informacion_alumno)): ?>
+<?php if (isset($materias_inscritas)): ?>
+<h2>Hola <b><?php echo ucfirst(Auth::get("apellidos"))." ".ucfirst(Auth::get("nombres")) ?></b></h2>
 	
-	<?php if (empty($informacion_alumno)): ?>
+	<?php if (empty($materias_inscritas)): ?>
 		<?php Flash::info("No hay evaluaciones asignadas") ?>
 	<?php endif ?>
-	<table class="table datatable">
-		<thead>
-			<th>Fecha</th>
-			<th>Estrategia - Descripcion</th>
-			<th>Unidad</th>
-			<th>Asignatura</th>
-			<th>Semestre</th>
-			<th>Seccion</th>
-			<th>Profesor</th>
-			<th>Ponderación</th>
-			<th>Terminado</th>
-		</thead>
-		<?php foreach ($informacion_alumno as $key => $value): ?>
+	<table class="table">
+	<?php $i = 0 ?>
+	
+		<?php foreach ($materias_inscritas as $key => $value): ?>
+			<thead>
+				<th><center>Asignatura</center></th>
+				<?php foreach ($evaluaciones[$i] as $key1 => $value1): ?>
+					<th>
+					<center>
+						<?php echo $value1->unidad ?><br>
+						<?php echo $value1->tipoevaluacion ?><br>
+						<?php echo $value1->fecha ?><br>
+						<?php echo str_replace("%", "", $value1->porcentaje)."%" ?><br>
+						</center>
+					</th>
+				<?php endforeach ?>
+			</thead>
 			<tr>
-				<td><?php echo $value->fecha ?></td>
-				<td><?php echo ucfirst($value->estrategia)." - ".ucfirst($value->descripcion) ?></td>
-				<td><?php echo ucfirst($value->unidad) ?></td>
-				<td><?php echo ucfirst($value->asignatura) ?></td>
-				<td><?php echo ucfirst($value->numero) ?></td>
-				<td><?php echo ucfirst($value->seccion) ?></td>
-				<td><?php echo ucfirst($value->apellidos)." ".ucfirst($value->nombres) ?></td>
-				<td><?php echo $value->ponderacion ?></td>
-				<td><?php echo $value->terminado ? "Si" : "No" ?></td>
+				<td><center>
+					<?php echo $cursos[$i][0]->asignatura ?>
+					<?php foreach ($evaluaciones[$i] as $key2 => $value2): ?>
+					<?php $alumnoeva = $alumnoevaluacion->find("conditions: incripcionalumnoasignatura_id = '{$value->id}'  and profesorevaluacion_id =  '{$value2->id}' ")?>
+						<td>
+							<center><?php echo $alumnoeva[0]->ponderacion ?></center>
+						</td>
+					<?php endforeach ?>
+				</center></td>
+
 			</tr>
+			<?php $i++; ?>
 		<?php endforeach ?>
 	</table>
 <?php endif ?>

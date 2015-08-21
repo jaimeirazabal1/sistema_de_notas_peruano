@@ -56,9 +56,10 @@ class CalificarController extends AppController{
 		/*este mecanismo lo aplique cuando me di cuenta que cuando se inscriben los alumnos en las evaluaciones del profesor
 		tengo que poner las notas de cada uno en cero. Como aqui es donde se hace, en esta accion, entonces redirijo obligatoriamente para aca
 		para que se haga y luego vuelvo a la anterior validando que no se repita el proceso con una variable de sesion*/
-		if (isset($_SESSION['se_actualizaran_notas_a_cero'])) {
-			$_SESSION['se_actualizaran_notas_a_cero'] = 0;
-			$_SEESION['notas_puestas_en_cero'] = 1;
+		if (isset($_SESSION['KUMBIA_AUTH_IDENTITY'][Config::get('config.application.namespace_auth')]['se_actualizaran_notas_a_cero'])) {
+			unset($_SESSION['KUMBIA_AUTH_IDENTITY'][Config::get('config.application.namespace_auth')]['se_actualizaran_notas_a_cero']);
+			$_SESSION['KUMBIA_AUTH_IDENTITY'][Config::get('config.application.namespace_auth')]['notas_puestas_en_cero'] = 1;
+		
 			Router::redirect("perfil/programarevaluaciones/{$profesorasignatura_id}");
 		}
 

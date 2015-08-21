@@ -1,5 +1,5 @@
 <?php 
-Load::models("alumnoasignatura","profesor","profesorasignatura","profesorevaluacion","alumnoevaluacion");
+Load::models("alumnoasignatura","profesor","profesorasignatura","profesorevaluacion","alumnoevaluacion","incripcionalumnoasignatura");
 class PerfilController extends AppController{
 	public function login(){
 		if (Input::hasPost("usuario","password","tipo_usuario")){
@@ -51,17 +51,48 @@ class PerfilController extends AppController{
 	}
 	public function logout(){
 		Auth::destroy_identity();
+
 		Router::redirect("/");
 	}
 
 	public function index(){
 		$tipo = Auth::get("tipousuario");
         if ($tipo == "alumno") {
+            $incripcionalumnoasignatura = new Incripcionalumnoasignatura();
             $profesorasignatura = new Profesorasignatura();
             $alumnoasignatura = new Alumnoasignatura();
+            $profesorevaluacion = new Profesorevaluacion();
+            $alumnoevaluacion = new Alumnoevaluacion();
+            $this->alumnoevaluacion = $alumnoevaluacion;
             $id_alumno = Auth::get("id");
-          
-            $this->informacion_alumno = $profesorasignatura->getNotasDeAlumnoByAlumnoId($id_alumno);
+            /*aqui esta la id del alumno y las materias inscritas*/
+            $this->materias_inscritas = $incripcionalumnoasignatura->find("conditions: alumno_id = '$id_alumno'");
+            $this->cursos = array();
+            $this->evaluaciones = array();
+            foreach ($this->materias_inscritas as $key => $value) {
+                /*estos cursos tienen 
+                    incripcionalumnoasignatura.id <--- importante
+                    seccion_id
+                    semestre_id
+                    asignatura_id
+                    profesor_id
+                */
+                $this->cursos[] = $profesorasignatura->find("columns: asignatura.asignatura,
+                                                                    profesorasignatura.seccion_id,
+                                                                    profesorasignatura.semestre_id,
+                                                                    profesorasignatura.asignatura_id,
+                                                                    profesorasignatura.profesor_id",
+                                                            "conditions: profesorasignatura.id='".$value->profesorasignatura_id."'",
+                                                            "join: inner join asignatura on profesorasignatura.asignatura_id = asignatura.id");
+                /*esto contiene las evaluaciones programadas por el profesor
+                    profesorevaluacion.id <-- importante
+                    unidad
+                    tipoevaluacion
+                    porcentaje
+                    fecha
+                */
+                $this->evaluaciones[] = $profesorevaluacion->find("conditions: profesorasignatura_id = '{$value->profesorasignatura_id}'");
+            }
         }
         if ($tipo == "docente") {
             $profesorasignatura = new Profesorasignatura();
@@ -140,6 +171,7 @@ class PerfilController extends AppController{
                 $profesorevaluacion = new Profesorevaluacion(Input::post("profesorevaluacion"));
                 if ($profesorevaluacion->save()) {
                     Flash::valid("Evaluacion programada");
+                    unset($_SESSION['KUMBIA_AUTH_IDENTITY'][Config::get('config.application.namespace_auth')]['notas_puestas_en_cero']);
                 }else{
                     Flash::error("Evaluacion no guardada");
                 }
@@ -147,9 +179,9 @@ class PerfilController extends AppController{
         }
 
         $this->evaluaciones = $profesorevaluacion_lista->find("conditions: profesorasignatura_id = '$profesorasignatura_id'");
-
-        if (!$this->evaluaciones and !isset($_SEESION['notas_puestas_en_cero'])) {
-            $_SESSION['se_actualizaran_notas_a_cero'] = 1;
+        
+        if ($this->evaluaciones and !isset($_SESSION['KUMBIA_AUTH_IDENTITY'][Config::get('config.application.namespace_auth')]['notas_puestas_en_cero'])) {
+            $_SESSION['KUMBIA_AUTH_IDENTITY'][Config::get('config.application.namespace_auth')]['se_actualizaran_notas_a_cero'] = 1;
             Router::redirect("calificar/grupo/{$this->evaluaciones[0]->id}/{$this->evaluaciones[0]->profesorasignatura_id}");
         }
 
