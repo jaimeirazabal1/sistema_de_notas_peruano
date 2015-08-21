@@ -172,6 +172,8 @@ class PerfilController extends AppController{
                 if ($profesorevaluacion->save()) {
                     Flash::valid("Evaluacion programada");
                     unset($_SESSION['KUMBIA_AUTH_IDENTITY'][Config::get('config.application.namespace_auth')]['notas_puestas_en_cero']);
+                    //var_dump($_SESSION['KUMBIA_AUTH_IDENTITY'][Config::get('config.application.namespace_auth')]);
+                    //die;
                 }else{
                     Flash::error("Evaluacion no guardada");
                 }
@@ -181,8 +183,11 @@ class PerfilController extends AppController{
         $this->evaluaciones = $profesorevaluacion_lista->find("conditions: profesorasignatura_id = '$profesorasignatura_id'");
         
         if ($this->evaluaciones and !isset($_SESSION['KUMBIA_AUTH_IDENTITY'][Config::get('config.application.namespace_auth')]['notas_puestas_en_cero'])) {
-            $_SESSION['KUMBIA_AUTH_IDENTITY'][Config::get('config.application.namespace_auth')]['se_actualizaran_notas_a_cero'] = 1;
-            Router::redirect("calificar/grupo/{$this->evaluaciones[0]->id}/{$this->evaluaciones[0]->profesorasignatura_id}");
+            foreach ($this->evaluaciones as $key => $value) {
+                
+                $_SESSION['KUMBIA_AUTH_IDENTITY'][Config::get('config.application.namespace_auth')]['se_actualizaran_notas_a_cero'] = 1;
+                Router::redirect("calificar/grupo/{$value->id}/{$value->profesorasignatura_id}");
+            }
         }
 
     }

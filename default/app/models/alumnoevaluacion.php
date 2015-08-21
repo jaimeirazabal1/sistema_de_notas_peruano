@@ -13,7 +13,6 @@ class Alumnoevaluacion extends ActiveRecord{
 	public function getPonderacionByIncripcionalumnoasignaturaIdYprofesorevaluacionId($ins_id,$prof_id){
 		$r = $this->find("conditions: incripcionalumnoasignatura_id = '$ins_id' and profesorevaluacion_id='$prof_id'");
 		if ($r) {
-			# code...
 			return $r[0]->ponderacion;
 		}
 		return null;
