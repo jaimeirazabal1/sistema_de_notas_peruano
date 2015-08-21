@@ -1,0 +1,43 @@
+<div class="container">
+	<ul>
+		<li>Unidad
+			<ul>
+				<li><?php echo ucfirst($evaluacion->unidad) ?></li>
+			</ul>
+		</li>
+		<li>Tipo de Evaluacion
+			<ul>
+				<li><?php echo ucfirst($evaluacion->tipoevaluacion) ?></li>
+			</ul>
+		</li>
+		<li>Porcentaje
+			<ul>
+				<li><?php echo ucfirst($evaluacion->porcentaje) ?></li>
+			</ul>
+		</li>
+		<li>Fecha
+			<ul>
+				<li><?php echo ucfirst($evaluacion->fecha) ?></li>
+			</ul>
+		</li>
+	</ul>
+</div>
+<?php View::content() ?>
+<table class="table datatable">
+	<thead>
+		<th>Alumno</th>
+		<th>Ponderacion</th>
+		<td></td>
+	</thead>
+	<?php foreach ($alumnos as $key => $value): ?>
+		<tr>
+			<?php echo Form::open() ?>
+			<td><?php echo ucfirst($value->apellidos)." ".ucfirst($value->nombres) ?></td>
+			<?php echo Form::hidden('alumnoevaluacion.incripcionalumnoasignatura_id',null,$value->incripcionalumnoasignatura_id) ?>
+			<?php echo Form::hidden("alumnoevaluacion.profesorevaluacion_id",null,$profesorevaluacion_id) ?>
+			<td><?php echo Form::number("alumnoevaluacion.ponderacion","class='form-control' style='width:120px' min='0' max='20' placeholder='Del 0 al 20'",$alumnoevaluacion->getPonderacionByIncripcionalumnoasignaturaIdYprofesorevaluacionId($value->incripcionalumnoasignatura_id,$profesorevaluacion_id)) ?></td>
+			<td><input type="submit" class="btn btn-default"></td>
+			<?php echo Form::close() ?>
+		</tr>
+	<?php endforeach ?>
+</table>

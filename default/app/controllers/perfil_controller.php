@@ -1,5 +1,5 @@
 <?php 
-Load::models("alumnoasignatura","profesor","profesorasignatura","profesorevaluacion");
+Load::models("alumnoasignatura","profesor","profesorasignatura","profesorevaluacion","alumnoevaluacion");
 class PerfilController extends AppController{
 	public function login(){
 		if (Input::hasPost("usuario","password","tipo_usuario")){
@@ -124,10 +124,10 @@ class PerfilController extends AppController{
         $profesorasignatura = new Profesorasignatura();
 
         $profesorevaluacion_lista = new Profesorevaluacion();
+        
+        $this->alumnoevaluacion = new Alumnoevaluacion();
 
         $this->asignatura = $profesorasignatura->getById($profesorasignatura_id);
-
-        
 
         if (Input::haspost("profesorevaluacion")) {
             $inputs = Input::post("profesorevaluacion");

@@ -35,7 +35,33 @@
 			<td><?php echo $value->tipoevaluacion ?></td>
 			<td><?php echo $value->porcentaje ?></td>
 			<td><?php echo $value->fecha ?></td>
-			<td><?php echo Html::link("calificar/grupo/{$value->id}","Calificar","class='btn btn-default'") ?></td>
+			<td><?php echo Html::link("calificar/grupo/{$value->id}/{$value->profesorasignatura_id}","Calificar","class='btn btn-default'") ?></td>
 		</tr>
 	<?php endforeach ?>
+</table>
+
+<table class="table datatable">
+	<thead>
+		<?php $columnas = 1; ?>
+		<th>Apellidos y Nombres</th>
+		<?php foreach ($evaluaciones as $key => $value): ?>
+			<th>
+				<center><?php echo ucfirst($value->unidad) ?></center>
+				<center><?php echo ucfirst($value->tipoevaluacion) ?></center>
+				<center><?php echo str_replace("%", "", $value->porcentaje)."%" ?> - (<?php echo $value->fecha ?>)</center>
+			</th>
+			<?php $columnas++; ?>
+		<?php endforeach ?>
+		<th>Promedio</th>
+	</thead>
+	<?php foreach ($evaluaciones as $key => $value): ?>
+			<tr>
+				<td></td>
+				<?php $alumnoevaluacion->find("conditions: profesorevaluacion_id='{$value->id}'") ?>
+				<?php for($i=1;$i<$columnas;$i++): ?>
+					<td><center><?php echo $i ?></center></td>
+				<?php endfor; ?>
+				<td></td>
+			</tr>
+		<?php endforeach ?>
 </table>

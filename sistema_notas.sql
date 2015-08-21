@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 20-08-2015 a las 15:46:29
+-- Tiempo de generación: 20-08-2015 a las 20:02:53
 -- Versión del servidor: 5.5.44-0ubuntu0.14.04.1
 -- Versión de PHP: 5.5.9-1ubuntu4.11
 
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `alumno` (
   `ip` varchar(30) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `dni` (`dni`,`celular`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
 
 --
 -- Volcado de datos para la tabla `alumno`
@@ -48,7 +48,14 @@ CREATE TABLE IF NOT EXISTS `alumno` (
 
 INSERT INTO `alumno` (`id`, `semestre_id`, `seccion_id`, `dni`, `nombres`, `apellidos`, `direccion`, `celular`, `estado`, `creado`, `ip`) VALUES
 (1, 1, 1, '19519519', 'Pedro Rodolfo', 'Alvarez Guedes', 'Por aqui por alla', '12153152136512136', 1, '2015-08-19 01:11:45', '127.0.0.1'),
-(3, 2, 5, '12312312', 'Pepe Carlos', 'Montoya San Diego', 'Avenida boyaca', '4489498498948', 1, '2015-08-19 13:26:26', '127.0.0.1');
+(3, 2, 5, '12312312', 'Pepe Carlos', 'Montoya San Diego', 'Avenida boyaca', '4489498498948', 1, '2015-08-19 13:26:26', '127.0.0.1'),
+(4, 1, 1, '18981989', 'Nelson Petro', 'Camacaro Prieto', 'La direccion de Nelson', '25191321269', 1, '2015-08-20 23:19:53', '127.0.0.1'),
+(5, 1, 1, '22991651', 'Charlie', 'Mata', 'La direccion de charlie mata', '15254989', 1, '2015-08-20 23:20:20', '127.0.0.1'),
+(6, 1, 1, '95515616', 'Pepe', 'Camejo', 'La direccion de pepe camejo', '9996632591295', 1, '2015-08-20 23:20:45', '127.0.0.1'),
+(7, 1, 1, '22515919', 'Carmen', 'San Diego', 'la direccion de carmen san diego', '123899165615', 1, '2015-08-20 23:21:10', '127.0.0.1'),
+(8, 1, 1, '87981919', 'Sape', 'Gato', 'La direccion de sape gato', '445532126', 1, '2015-08-20 23:21:38', '127.0.0.1'),
+(9, 1, 1, '78915923', 'Rolando', 'Bestron', 'La direccion de ronaldo bestron', '1112321959', 1, '2015-08-20 23:22:09', '127.0.0.1'),
+(10, 1, 1, '84981519', 'Richard', 'Fuentes', 'La direccion de richard Fuentes', '48916519', 1, '2015-08-20 23:22:39', '127.0.0.1');
 
 -- --------------------------------------------------------
 
@@ -90,9 +97,48 @@ CREATE TABLE IF NOT EXISTS `alumnoevaluacion` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `incripcionalumnoasignatura_id` int(11) NOT NULL,
   `profesorevaluacion_id` int(11) NOT NULL,
-  `ponderacion` varchar(3) NOT NULL,
+  `ponderacion` varchar(3) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=34 ;
+
+--
+-- Volcado de datos para la tabla `alumnoevaluacion`
+--
+
+INSERT INTO `alumnoevaluacion` (`id`, `incripcionalumnoasignatura_id`, `profesorevaluacion_id`, `ponderacion`) VALUES
+(1, 1, 1, '20'),
+(2, 10, 12, '5'),
+(3, 5, 12, '10'),
+(4, 7, 12, '15'),
+(5, 11, 12, '5'),
+(6, 9, 12, '7'),
+(7, 6, 12, '3'),
+(8, 4, 12, '02'),
+(9, 8, 12, '04'),
+(10, 10, 13, '2'),
+(11, 5, 13, '4'),
+(12, 7, 13, '20'),
+(13, 11, 13, '15'),
+(14, 9, 13, '5'),
+(15, 6, 13, '10'),
+(16, 4, 13, '12'),
+(17, 8, 13, '12'),
+(18, 10, 14, '10'),
+(19, 5, 14, '12'),
+(20, 7, 14, '13'),
+(21, 11, 14, '5'),
+(22, 9, 14, '14'),
+(23, 6, 14, '12'),
+(24, 4, 14, '6'),
+(25, 8, 14, '20'),
+(26, 10, 15, '10'),
+(27, 5, 15, '1'),
+(28, 7, 15, '20'),
+(29, 11, 15, '12'),
+(30, 9, 15, '15'),
+(31, 6, 15, '4'),
+(32, 4, 15, '2'),
+(33, 8, 15, '10');
 
 -- --------------------------------------------------------
 
@@ -139,7 +185,7 @@ CREATE TABLE IF NOT EXISTS `incripcionalumnoasignatura` (
   `profesorasignatura_id` int(11) NOT NULL,
   `alumno_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
 
 --
 -- Volcado de datos para la tabla `incripcionalumnoasignatura`
@@ -148,7 +194,15 @@ CREATE TABLE IF NOT EXISTS `incripcionalumnoasignatura` (
 INSERT INTO `incripcionalumnoasignatura` (`id`, `creado`, `profesorasignatura_id`, `alumno_id`) VALUES
 (1, '2015-08-20 18:49:44', 8, 1),
 (2, '2015-08-20 19:18:55', 9, 3),
-(3, '2015-08-20 19:19:22', 9, 3);
+(3, '2015-08-20 19:19:22', 9, 3),
+(4, '2015-08-20 23:18:08', 13, 3),
+(5, '2015-08-20 23:23:59', 13, 4),
+(6, '2015-08-20 23:24:06', 13, 5),
+(7, '2015-08-20 23:24:14', 13, 6),
+(8, '2015-08-20 23:24:18', 13, 7),
+(9, '2015-08-20 23:24:22', 13, 8),
+(10, '2015-08-20 23:24:25', 13, 9),
+(11, '2015-08-20 23:24:29', 13, 10);
 
 -- --------------------------------------------------------
 
@@ -225,7 +279,7 @@ CREATE TABLE IF NOT EXISTS `profesorevaluacion` (
   `fecha` date NOT NULL,
   `creado` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
 
 --
 -- Volcado de datos para la tabla `profesorevaluacion`
@@ -235,7 +289,11 @@ INSERT INTO `profesorevaluacion` (`id`, `profesorasignatura_id`, `unidad`, `tipo
 (1, 8, 'unidad 1', 'examen escrito', '30%', '2015-08-31', '2015-08-20 14:50:42'),
 (8, 8, 'Unidad 2', 'Prueba oral', '40%', '2015-09-03', '2015-08-20 15:07:25'),
 (10, 8, 'Unidad 2', 'Prueba oral', '20%', '2015-09-03', '2015-08-20 15:08:50'),
-(11, 8, 'Unidad 2', 'Trabajo Escrito', '10%', '2015-09-11', '2015-08-20 15:09:04');
+(11, 8, 'Unidad 2', 'Trabajo Escrito', '10%', '2015-09-11', '2015-08-20 15:09:04'),
+(12, 13, 'Unidad 1', 'Examen Escrito', '30', '2015-08-20', '2015-08-20 23:25:20'),
+(13, 13, 'Unidad 2', 'Examen Escrito', '30', '2015-08-27', '2015-08-20 23:25:27'),
+(14, 13, 'Unidad 3', 'Examen Escrito', '30', '2015-09-03', '2015-08-20 23:25:40'),
+(15, 13, 'Unidad 4', 'Examen Escrito', '10', '2015-09-03', '2015-08-20 23:25:50');
 
 -- --------------------------------------------------------
 
