@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 21-08-2015 a las 16:17:57
+-- Tiempo de generación: 24-08-2015 a las 09:31:15
 -- Versión del servidor: 5.5.44-0ubuntu0.14.04.1
 -- Versión de PHP: 5.5.9-1ubuntu4.11
 
@@ -106,7 +106,6 @@ CREATE TABLE IF NOT EXISTS `alumnoevaluacion` (
 --
 
 INSERT INTO `alumnoevaluacion` (`id`, `incripcionalumnoasignatura_id`, `profesorevaluacion_id`, `ponderacion`) VALUES
-(1, 1, 1, '20'),
 (2, 10, 12, '3'),
 (3, 5, 12, '10'),
 (4, 7, 12, '15'),
@@ -214,7 +213,6 @@ CREATE TABLE IF NOT EXISTS `incripcionalumnoasignatura` (
 --
 
 INSERT INTO `incripcionalumnoasignatura` (`id`, `creado`, `profesorasignatura_id`, `alumno_id`) VALUES
-(1, '2015-08-20 18:49:44', 8, 1),
 (2, '2015-08-20 19:18:55', 9, 3),
 (3, '2015-08-20 19:19:22', 9, 3),
 (4, '2015-08-20 23:18:08', 13, 3),
