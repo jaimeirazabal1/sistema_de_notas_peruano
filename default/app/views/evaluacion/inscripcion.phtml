@@ -1,5 +1,5 @@
 <?php echo Tag::css("mios"); ?>
-
+<?php echo Tag::js("jquery/jquery.kumbiaphp.min") ?>
 <div class="alert bg-info">
 	<div class="pull-left">
 		<?php echo Html::img("evaluacion.png","icono de evaluaciones","width='100px'") ?>
@@ -32,6 +32,7 @@
       <th>Prof.</th>
       <th>Alumno</th>
       <th>Fecha Inscripción</th>
+      <th></th>
     </thead>
   <?php foreach ($incripcionalumnoasignatura as $key => $value): ?>
     <tr>
@@ -42,6 +43,7 @@
       <td><?php echo ucfirst($value->apellidos)." ".ucfirst($value->nombres) ?></td>
       <td><?php echo ucfirst($value->apellidos_alumnos)." ".ucfirst($value->nombres_alumno) ?></td>
       <td><?php echo $value->creado ?></td>
+      <td><?php echo Js::link("evaluacion/eliminar_inscripcion/{$value->incripcionalumnoasignatura_id}","<span class='glyphicon glyphicon-remove'></span>","Si eliminar esta inscripción, se eliminarán todas las evaluaciones asociadas a la misma. Desea Continuar?","btn btn-default btn-xs") ?></td>
     </tr>
   <?php endforeach ?>
 </table>

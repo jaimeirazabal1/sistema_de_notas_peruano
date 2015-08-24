@@ -6,6 +6,18 @@ class SeccionController extends AppController{
 		$this->titulo = "Control de Secciones";
 		$this->secciones = $seccion->getSecciones();
 	}
+	public function editar($seccion_id){
+		$seccion = new Seccion();
+		if (Input::haspost("seccion")) {
+			$seccion_edit = new Seccion(Input::post("seccion"));
+			if ($seccion_edit->update()) {
+				Flash::valid("Sección editada");
+			}else{
+				Flash::error("Error editando la sección");
+			}
+		}
+		$this->seccion = $seccion->find($seccion_id);
+	}
 	public function nueva(){
 		if (Input::haspost("seccion")) {
 			$seccion = new Seccion(Input::post("seccion"));

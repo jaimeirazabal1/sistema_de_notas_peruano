@@ -22,6 +22,7 @@ class Incripcionalumnoasignatura extends ActiveRecord{
 	}
 	public function getInscripciones(){
 		$query = "SELECT 
+					incripcionalumnoasignatura.id as incripcionalumnoasignatura_id,
 					incripcionalumnoasignatura.creado,
 					profesorasignatura.id as profesorasignatura_id,
 					seccion.seccion,

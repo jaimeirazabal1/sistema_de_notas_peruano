@@ -1,5 +1,5 @@
 <?php 
-Load::models("alumnoasignatura","semestre","seccion","incripcionalumnoasignatura","profesorasignatura");
+Load::models("alumnoasignatura","semestre","seccion","incripcionalumnoasignatura","profesorasignatura","alumnoevaluacion");
 class EvaluacionController extends AppController{
 	public function index(){
 		Router::redirect("evaluacion/inscripcion");
@@ -47,6 +47,21 @@ class EvaluacionController extends AppController{
 			}
 		}
 		$this->incripcionalumnoasignatura = $incripcionalumnoasignatura->getInscripciones();
+	}
+	public function eliminar_inscripcion($incripcionalumnoasignatura_id){
+		$incripcionalumnoasignatura = new Incripcionalumnoasignatura();
+		$alumnoevaluacion = new Alumnoevaluacion();
+		$inscripcion_eliminar = $incripcionalumnoasignatura->find($incripcionalumnoasignatura_id);
+		if ($inscripcion_eliminar->delete()) {
+			if($alumnoevaluacion->delete("incripcionalumnoasignatura_id='$incripcionalumnoasignatura_id'")){
+				Flash::valid("Inscripcion Eliminada con las evaluaciones de esa inscripción");
+			}else{
+				Flash::error("La inscripción se eliminó pero no se pudieron eliminar las evaluaciones de la inscripción");
+			}
+		}else{
+			Flash::error("No se pudo eliminar la inscripción");
+		}
+		Router::redirect("evaluacion/inscripcion");
 	}
 }
 

@@ -27,6 +27,7 @@
 	<thead>
 		<th>Semestre</th>
 		<th>Sección</th>
+		<th></th>
 	</thead>
 	<?php foreach ($secciones as $key => $value): ?>
 		<tr>
@@ -36,6 +37,7 @@
 			<td>
 				<?php echo $value->seccion ?>
 			</td>
+			<td><?php echo Html::link("seccion/editar/{$value->id}","<span class='glyphicon glyphicon-pencil'></span>","title='Editar' class='btn btn-default btn-xs'") ?></td>
 		</tr>
 	<?php endforeach ?>
 </table>

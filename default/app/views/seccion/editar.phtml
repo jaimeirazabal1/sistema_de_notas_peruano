@@ -1,0 +1,14 @@
+<?php View::content() ?>
+<?php echo Form::open() ?>
+<div class="form-group">
+	<?php echo Form::hidden("seccion.id") ?>
+	<label for="">Semestre</label>
+	<?php echo Form::dbselect("seccion.semestre_id",null,null,"Seleccione Semestre","class='form-control'") ?>
+</div>
+<div class="form-group">
+	<label for="">Sección</label>
+	<?php echo Form::text("seccion.seccion","class='form-control'") ?>
+</div>
+<?php echo Html::link("seccion/","Volver","class='btn btn-default'") ?>
+<?php echo Form::submit("Actualizar","class='btn btn-default'") ?>
+<?php echo Form::close() ?>
