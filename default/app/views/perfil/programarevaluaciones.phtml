@@ -36,7 +36,16 @@
 			<td><?php echo $value->porcentaje ?></td>
 			<td><?php echo $value->fecha ?></td>
 			<!--profesorevaluacion_id / profesorasignatura_id-->
-			<td><?php echo Html::link("calificar/grupo/{$value->id}/{$value->profesorasignatura_id}","Calificar","class='btn btn-default'") ?></td>
+			<td>
+				<?php $diasdif = View::calcularDiferenciaEntreFechas(date("Y-m-d"),$value->fecha) ?>
+				
+				<?php if ($diasdif <= -3): ?>
+					Plazo terminado
+					<?php else: ?>
+
+			<?php echo Html::link("calificar/grupo/{$value->id}/{$value->profesorasignatura_id}","Calificar","class='btn btn-default'") ?>
+				<?php endif ?>
+			</td>
 		</tr>
 	<?php endforeach ?>
 </table>
@@ -63,11 +72,8 @@
 				<?php $suma_promedio = 0; ?>
 				<?php $suma_porcentaje = 0; ?>
 				<?php foreach ($r as $key1 => $value1): ?>
-					
-					<td><center><?php echo $value1->ponderacion*$value->porcentaje/100 ?></center></td>
-					<?php $porcentaje = $value1->ponderacion * $value1->porcentaje / 20  ?>
-					<?php $suma_promedio+=$value1->ponderacion*$value->porcentaje/100; ?>
-					<?php $suma_porcentaje+=$porcentaje ?>
+					<td><center><?php echo "(".$value1->ponderacion.")".($value1->ponderacion*$value1->porcentaje)/100 ?></center></td>
+					<?php $suma_promedio+=$value1->ponderacion*$value1->porcentaje/100; ?>
 				<?php endforeach ?>
 				<td><center><?php echo $suma_promedio ?></center></td>
 			</tr>
