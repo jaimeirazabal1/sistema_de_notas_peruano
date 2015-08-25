@@ -1,5 +1,5 @@
 <?php 
-Load::models("alumnoasignatura","semestre","seccion","incripcionalumnoasignatura","profesorasignatura","alumnoevaluacion");
+Load::models("alumnoasignatura","semestre","seccion","incripcionalumnoasignatura","profesorasignatura","alumnoevaluacion","asignatura");
 class EvaluacionController extends AppController{
 	public function index(){
 		Router::redirect("evaluacion/inscripcion");
@@ -39,11 +39,21 @@ class EvaluacionController extends AppController{
 		$profesorasignatura = new Profesorasignatura();
 		$this->profesorasignatura = $profesorasignatura->getProfesorAsignatura();
 		if (Input::haspost("incripcionalumnoasignatura")) {
-			$inscripcion = new Incripcionalumnoasignatura(Input::post("incripcionalumnoasignatura"));
-			if ($inscripcion->save()) {
-				Flash::valid("Inscripción realizada");
-			}else{
-				Flash::error("No se realizó la inscripción");
+			$prof_asignaturas = Input::post("incripcionalumnoasignatura")['profesorasignatura_id'];
+			for ($i=0; $i < count($prof_asignaturas); $i++) { 
+				$inscripcion = new Incripcionalumnoasignatura();
+				$inscripcion->profesorasignatura_id = $prof_asignaturas[$i];
+
+				$inscripcion->alumno_id = Input::post("incripcionalumnoasignatura")['alumno_id'];
+				$prof_asignatura = new Profesorasignatura();
+				$prof_asignatura_ = $prof_asignatura->find($prof_asignaturas[$i]);
+				$asig = new Asignatura();
+				$obj_asignatura = $asig->find($prof_asignatura_->asignatura_id);
+				if ($inscripcion->save()) {
+					Flash::valid("Inscripción realizada de la signatura: ".$obj_asignatura->asignatura);
+				}else{
+					Flash::error("No se realizó la inscripción con la asignatura: ".$obj_asignatura->asignatura);
+				}
 			}
 		}
 		$this->incripcionalumnoasignatura = $incripcionalumnoasignatura->getInscripciones();

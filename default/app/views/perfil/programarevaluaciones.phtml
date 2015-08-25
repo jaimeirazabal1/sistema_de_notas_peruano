@@ -63,12 +63,13 @@
 				<?php $suma_promedio = 0; ?>
 				<?php $suma_porcentaje = 0; ?>
 				<?php foreach ($r as $key1 => $value1): ?>
-					<td><center><?php echo $value1->ponderacion."/20" ?></center></td>
+					
+					<td><center><?php echo $value1->ponderacion*$value->porcentaje/100 ?></center></td>
 					<?php $porcentaje = $value1->ponderacion * $value1->porcentaje / 20  ?>
-					<?php $suma_promedio+=$value1->ponderacion; ?>
+					<?php $suma_promedio+=$value1->ponderacion*$value->porcentaje/100; ?>
 					<?php $suma_porcentaje+=$porcentaje ?>
 				<?php endforeach ?>
-				<td><center><?php echo $suma_porcentaje."/100%" ?></center></td>
+				<td><center><?php echo $suma_promedio ?></center></td>
 			</tr>
 		<?php endforeach ?>
 </table>

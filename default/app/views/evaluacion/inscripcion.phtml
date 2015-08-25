@@ -80,7 +80,8 @@
                      <td><?php echo $value->asignatura_codigo ?></td>
                      <td><?php echo $value->asignatura ?></td>
                      <td><?php echo ucfirst($value->nombres)." ".ucfirst($value->apellidos) ?></td>
-                     <td><?php echo Form::radio("incripcionalumnoasignatura.profesorasignatura_id",$value->profesorasignatura_id,"class='radio'") ?></td>
+                     <td><input type="checkbox" name="incripcionalumnoasignatura[profesorasignatura_id][]" value="<?php echo $value->profesorasignatura_id ?>" class="radio"></td>
+                     
                    </tr>
                  <?php endforeach ?>
             </table>

@@ -21,18 +21,23 @@
 						</center>
 					</th>
 				<?php endforeach ?>
+				<th>Promedio</th>
 			</thead>
 			<tr>
 				<td><center>
 					<?php echo $cursos[$i][0]->asignatura ?>
+					<?php $suma_promedio = 0; ?>
 					<?php foreach ($evaluaciones[$i] as $key2 => $value2): ?>
-					<?php $alumnoeva = $alumnoevaluacion->find("conditions: incripcionalumnoasignatura_id = '{$value->id}'  and profesorevaluacion_id =  '{$value2->id}' ")?>
+					<?php $alumnoeva = $alumnoevaluacion->find("columns: alumnoevaluacion.id,incripcionalumnoasignatura_id,profesorevaluacion_id,ponderacion,porcentaje","conditions: incripcionalumnoasignatura_id = '{$value->id}'  and profesorevaluacion_id =  '{$value2->id}' ","join: inner join profesorevaluacion on profesorevaluacion.id = alumnoevaluacion.profesorevaluacion_id")?>
 						<td>
-							<center><?php echo $alumnoeva[0]->ponderacion ?></center>
+							<center><?php echo " (".$alumnoeva[0]->ponderacion.")  ".$alumnoeva[0]->ponderacion*$alumnoeva[0]->porcentaje/100 ?>
+							<?php $suma_promedio += $alumnoeva[0]->ponderacion*$alumnoeva[0]->porcentaje/100 ?>
+							</center>
 						</td>
 					<?php endforeach ?>
+					<td><?php echo round($suma_promedio) ?></td>
 				</center></td>
-
+				
 			</tr>
 			<?php $i++; ?>
 		<?php endforeach ?>
