@@ -1,0 +1,79 @@
+<?php echo Form::open() ?>
+<div class="row">
+	<div class="col-md-6">
+		<div class="form-group">
+			<label for="">Profesor</label>
+			<?php echo Form::dbselect("profesor_id","prof",array('profesor','getProfesores'),'Seccione',"class='form-control'") ?>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="form-group">
+			<label for="">Asignaturas</label>
+			<div id="div_asig"></div>
+		</div>
+	</div>
+</div>
+<div class="container_1">
+	
+</div>
+<?php echo Form::close() ?>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#profesor_id").on('change',function(){
+			id = $(this).val();
+			$.ajax({
+				url:'getmaterias/'+id,
+				success:function(r){
+					console.log(r)
+					$("#div_asig").html(r);
+				}
+			})
+		})
+		$("body").on("change","#materias_id",function(){
+			$(".container_1").html("<h1>Cargando...</h1>")
+			id_asig = $(this).val();
+			id_prof = $("#profesor_id option:selected").val();
+			$.ajax({
+				url:'getevaluaciones/'+id_asig,
+				success:function(r){
+					console.log(r)
+					$(".container_1").html(r);
+				}
+			})
+		})
+		$("body").on("click",".habilitar",function(){
+			id = $(this).attr("id");
+			var este = $(this)
+			$.ajax({
+				url:'habilitar/'+id,
+				dataType:'json',
+				success:function(r){
+					if (r === true) {
+						alert("Se habilito la posibilidad de calificar para el profesor")
+						este.removeClass('habilitar')
+						este.addClass('deshabilitar')
+					}else{
+						alert("Hubo un error");
+					}
+				}
+			})
+		})
+		$("body").on("click",".deshabilitar",function(){
+			id = $(this).attr("id");
+			var este = $(this)
+			$.ajax({
+				url:'deshabilitar/'+id,
+				dataType:'json',
+				success:function(r){
+					if (r === true) {
+						alert("Se deshabilito la posibilidad de calificar para el profesor")
+						este.addClass('habilitar')
+						este.removeClass('deshabilitar')
+					}else{
+						alert("Hubo un error");
+					}
+				}
+			})
+		})
+	})
+</script>

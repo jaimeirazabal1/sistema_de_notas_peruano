@@ -3,7 +3,7 @@ Load::models("asignatura");
 class Profesorasignatura extends ActiveRecord{
 	public function getAsignaturasByProfesorId($profesor_id){
 
-		$query = "SELECT profesorasignatura.id as profesorasignatura_id, asignatura.codigo, asignatura.asignatura, semestre.numero, profesor.id, seccion.seccion
+		$query = "SELECT profesorasignatura.id as profesorasignatura_id, asignatura.id as asignatura_id, asignatura.codigo, asignatura.asignatura, semestre.numero, profesor.id, seccion.seccion
 		 		  from profesorasignatura 
 		 		  inner join asignatura 
 		 		  	on profesorasignatura.asignatura_id = asignatura.id 

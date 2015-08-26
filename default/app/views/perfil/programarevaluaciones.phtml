@@ -39,7 +39,7 @@
 			<td>
 				<?php $diasdif = View::calcularDiferenciaEntreFechas(date("Y-m-d"),$value->fecha) ?>
 				
-				<?php if ($diasdif <= -3): ?>
+				<?php if ($diasdif <= -3 and !$value->habilitado): ?>
 					Plazo terminado
 					<?php else: ?>
 

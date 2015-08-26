@@ -1,0 +1,24 @@
+<table class="table">
+	<thead>
+		<th>Unidad</th>
+		<th>Tipo de Evaluacion</th>
+		<th>%</th>
+		<th>Fecha</th>
+		<th>Habilitada
+			<p>
+				<small>
+					Para calificar luego que la fecha termine
+				</small>
+			</p>
+		</th>
+	</thead>
+	<?php foreach ($data as $key => $value): ?>
+		<tr>
+			<td><?php echo $value->unidad ?></td>
+			<td><?php echo $value->tipoevaluacion ?></td>
+			<td><?php echo $value->porcentaje ?></td>
+			<td><?php echo $value->fecha ?></td>
+			<td><?php echo $value->habilitado ? "<input type='checkbox' name='".$value->id."' id='".$value->id."' checked class='deshabilitar'>" : "<input type='checkbox' name='".$value->id."' id='".$value->id."' class='habilitar'>" ?></td>
+		</tr>
+	<?php endforeach ?>
+</table>

@@ -44,7 +44,11 @@
         <?php else: ?>
           <li role="presentation"><?php echo Html::link("evaluacion/","Incripciones") ?></li>
         <?php endif ?>
-        
+        <?php if ($controlador == "evaluaciones"): ?>
+          <li role="presentation" class='active'><?php echo Html::link("evaluaciones/","Evaluaciones") ?></li>
+        <?php else: ?>
+          <li role="presentation"><?php echo Html::link("evaluaciones/","Evaluaciones") ?></li>
+        <?php endif ?>
     <?php endif ?>
 
 

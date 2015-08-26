@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 25-08-2015 a las 19:13:04
+-- Tiempo de generación: 25-08-2015 a las 21:16:14
 -- Versión del servidor: 5.5.44-0ubuntu0.14.04.1
 -- Versión de PHP: 5.5.9-1ubuntu4.11
 
@@ -259,6 +259,7 @@ CREATE TABLE IF NOT EXISTS `profesorevaluacion` (
   `porcentaje` varchar(4) NOT NULL,
   `fecha` date NOT NULL,
   `creado` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `habilitado` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
 
@@ -266,13 +267,13 @@ CREATE TABLE IF NOT EXISTS `profesorevaluacion` (
 -- Volcado de datos para la tabla `profesorevaluacion`
 --
 
-INSERT INTO `profesorevaluacion` (`id`, `profesorasignatura_id`, `unidad`, `tipoevaluacion`, `porcentaje`, `fecha`, `creado`) VALUES
-(4, 1, 'Unidad 1', 'Examen Escrito', '30%', '2015-08-19', '2015-08-25 22:48:44'),
-(5, 1, 'Unidad 2', 'Examen Escrito', '40%', '2015-08-27', '2015-08-25 22:48:59'),
-(6, 1, 'Unidad 3', 'Examen Escrito', '30%', '2015-09-24', '2015-08-25 22:49:22'),
-(7, 2, 'Unidad 1', 'Examen Escrito', '30%', '2015-08-06', '2015-08-25 23:12:05'),
-(8, 2, 'Unidad 2', 'Examen Escrito', '30%', '2015-09-17', '2015-08-25 23:12:31'),
-(9, 2, 'Unidad 3', 'Examen Escrito', '40%', '2015-08-22', '2015-08-25 23:13:00');
+INSERT INTO `profesorevaluacion` (`id`, `profesorasignatura_id`, `unidad`, `tipoevaluacion`, `porcentaje`, `fecha`, `creado`, `habilitado`) VALUES
+(4, 1, 'Unidad 1', 'Examen Escrito', '30%', '2015-08-19', '2015-08-25 22:48:44', NULL),
+(5, 1, 'Unidad 2', 'Examen Escrito', '40%', '2015-08-27', '2015-08-25 22:48:59', NULL),
+(6, 1, 'Unidad 3', 'Examen Escrito', '30%', '2015-09-24', '2015-08-25 22:49:22', NULL),
+(7, 2, 'Unidad 1', 'Examen Escrito', '30%', '2015-08-06', '2015-08-25 23:12:05', NULL),
+(8, 2, 'Unidad 2', 'Examen Escrito', '30%', '2015-09-17', '2015-08-25 23:12:31', NULL),
+(9, 2, 'Unidad 3', 'Examen Escrito', '40%', '2015-08-22', '2015-08-25 23:13:00', NULL);
 
 -- --------------------------------------------------------
 
