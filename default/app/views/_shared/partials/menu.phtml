@@ -1,7 +1,9 @@
 <?php if (Auth::is_valid()): ?>
   <ul class="nav nav-pills">
-  	<?php $controlador = Router::get("controller") ?>
-
+    <?php $controlador = Router::get("controller") ?>
+  	<?php $action = Router::get("action") ?>
+    <?php $parametros = Router::get("parameters") ?>
+   
     <?php if (Auth::get("tipousuario") == "docente" or Auth::get("tipousuario") == "administrador"): ?>
       <li role="presentation" class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
@@ -51,7 +53,13 @@
         <?php endif ?>
     <?php endif ?>
 
-
+    <?php if (Auth::get("tipousuario") == "docente" and $controlador."/".$action == "perfil/programarevaluaciones"): ?>
+        <?php if ($controlador == "asistencia"): ?>
+          <li role="presentation" class='active'><?php echo Html::link("asistencia/index/".Auth::get("id")."/".$parametros[0],"Asistencia") ?></li>
+        <?php else: ?>
+          <li role="presentation"><?php echo Html::link("asistencia/index/".Auth::get("id")."/".$parametros[0],"Asistencia") ?></li>
+        <?php endif ?>
+    <?php endif ?>
     <li role="presentation"><?php echo Html::link("perfil/logout","Salir") ?></li>
   </ul>
 <?php endif ?>

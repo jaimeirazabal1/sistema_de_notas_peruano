@@ -41,7 +41,9 @@ class AppController extends Controller
     								"perfil/index",
     								"perfil/programarevaluaciones",
     								"calificar/grupo",
-    								"perfil/logout");
+    								"perfil/logout",
+                                    "asistencia/index",
+                                    "asistencia/agregar_asistencia");
 
     			if (!in_array($ruta, $permisos)) {
     				Flash::warning("Acceso Denegado");

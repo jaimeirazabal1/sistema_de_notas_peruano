@@ -1,0 +1,68 @@
+
+<?php View::content() ?>
+
+<?php echo Form::open("asistencia/agregar_asistencia","POST","class='form-inline'") ?>
+	<div class="form-group">
+		<label>Descripción</label>
+		<?php echo Form::hidden("asistencia.profesor_id",null,$profesor_id) ?>
+		<?php echo Form::hidden("profesorevaluacion_id",null,$profesorasignatura_id) ?>
+		<?php echo Form::text("asistencia.descripcion","class='form-control'") ?>
+	</div>
+	<div class="form-group">
+		<label>Fecha</label>
+		<?php echo Form::text("asistencia.fecha","class='form-control datepicker'") ?>
+	</div>
+	<?php echo Form::submit("Guardar","class='btn btn-default'") ?>
+<?php echo Form::close() ?>
+<hr>
+<table class="table datatable">
+	<thead>
+		<th>Descripción</th>
+		<th>Fecha</th>
+		<th></th>
+	</thead>
+	<?php foreach ($asistencia as $key => $value): ?>
+		<tr>
+			<td><?php echo $value->descripcion ?></td>
+			<td><?php echo $value->fecha ?></td>
+			<!--profesorevaluacion_id / profesorasignatura_id-->
+			<td>
+
+				<?php echo Html::link("calificar/grupo/{$value->id}/{$value->profesorasignatura_id}","Calificar","class='btn btn-default'") ?>
+	
+			</td>
+		</tr>
+	<?php endforeach ?>
+</table>
+
+<table class="table datatable">
+	<thead>
+		<?php $columnas = 1; ?>
+		<th>Apellidos y Nombres</th>
+
+		<?php foreach ($asistencia as $key => $value): ?>
+			<th>
+				<center><?php echo ucfirst($value->unidad) ?></center>
+				<center><?php echo ucfirst($value->tipoevaluacion) ?></center>
+				<center><?php echo str_replace("%", "", $value->porcentaje)."%" ?> - (<?php echo $value->fecha ?>)</center>
+			</th>
+			<?php $columnas++; ?>
+		<?php endforeach ?>
+		<th>Promedio</th>
+	</thead>
+	<?php foreach ($asistenciaalumnos as $key => $value): ?>
+			<tr>
+				<td><?php echo ucfirst($value->apellidos." ".$value->nombres) ?></td>
+				<?php $r = $notasalumnos[0]->getNotasAsignaturaConAlumnosByProfesorAsignaturaIdAndAlumnoId($profesorasignatura_id,null,$value->id) ?>
+				<?php $suma_promedio = 0; ?>
+				<?php $suma_porcentaje = 0; ?>
+				<?php foreach ($r as $key1 => $value1): ?>
+					<td><center><?php echo "(".$value1->ponderacion.")".($value1->ponderacion*$value1->porcentaje)/100 ?></center></td>
+					<?php $suma_promedio+=$value1->ponderacion*$value1->porcentaje/100; ?>
+				<?php endforeach ?>
+				<td><center><?php echo $suma_promedio ?></center></td>
+			</tr>
+		<?php endforeach ?>
+</table>
+
+<?php echo Html::link("perfil/programarevaluaciones/".$profesorasignatura_id,"Volver","class='btn btn-default'") ?>

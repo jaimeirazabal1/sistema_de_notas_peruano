@@ -23,4 +23,8 @@ class ActiveRecord extends KumbiaActiveRecord
 	public function getEstado($numero){
 		return $this->estado[$numero];
 	}
+	public function getUltimoId(){
+		$r = $this->find("limit: 1","order: id desc");
+		return $r[0]->id;
+	}
 }
