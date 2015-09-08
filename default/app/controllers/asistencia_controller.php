@@ -76,20 +76,31 @@ class AsistenciaController extends AppController{
 	}
 	public function alumno($alumno_id){
 		$alumnoasistencia = new Alumnoasistencia();
-		$query = "select 
-				asistencia.descripcion,
-				alumnoasistencia.asistio,
-				profesor.nombres as profesor_nombres,
-				profesor.apellidos as profesor_apellidos
-				from alumnoasistencia 
-				inner join incripcionalumnoasignatura on alumnoasistencia.incripcionalumnoasignatura_id = incripcionalumnoasignatura.id 
-				inner join alumno on incripcionalumnoasignatura.alumno_id = alumno.id 
-				inner join asistencia on asistencia.id = alumnoasistencia.asistencia_id
-				inner join profesorasignatura on profesorasignatura.id = incripcionalumnoasignatura.profesorasignatura_id
-				inner join profesor on profesor.id = profesorasignatura.profesor_id
-				where alumno.id = '$alumno_id'";
-				echo $query;
-		$this->r = $alumnoasistencia->find_all_by_sql($query);
+		$incripcionalumnoasignatura = new Incripcionalumnoasignatura();
+
+		$query = "SELECT incripcionalumnoasignatura.id as incripcionalumnoasignatura_id, semestre.numero, asignatura.asignatura from incripcionalumnoasignatura 
+					INNER join profesorasignatura on profesorasignatura.id = incripcionalumnoasignatura.profesorasignatura_id
+					INNER join profesor on profesor.id = profesorasignatura.profesor_id
+					INNER join asignatura on asignatura.id = profesorasignatura.asignatura_id 
+					INNER JOIN semestre on semestre.id = asignatura.semestre_id
+					where alumno_id ='$alumno_id'";
+
+		$this->cursosinscritos = $incripcionalumnoasignatura->find_all_by_sql($query);
+
+		// $query = "select 
+		// 		asistencia.descripcion,
+		// 		alumnoasistencia.asistio,
+		// 		profesor.nombres as profesor_nombres,
+		// 		profesor.apellidos as profesor_apellidos
+		// 		from alumnoasistencia 
+		// 		inner join incripcionalumnoasignatura on alumnoasistencia.incripcionalumnoasignatura_id = incripcionalumnoasignatura.id 
+		// 		inner join alumno on incripcionalumnoasignatura.alumno_id = alumno.id 
+		// 		inner join asistencia on asistencia.id = alumnoasistencia.asistencia_id
+		// 		inner join profesorasignatura on profesorasignatura.id = incripcionalumnoasignatura.profesorasignatura_id
+		// 		inner join profesor on profesor.id = profesorasignatura.profesor_id
+		// 		where alumno.id = '$alumno_id' and incripcionalumnoasignatura.id = '$incripcionalumnoasignatura_id'";
+
+		// $this->r = $alumnoasistencia->find_all_by_sql($query);
 		$this->alumno_id = $alumno_id;
 	}
 }

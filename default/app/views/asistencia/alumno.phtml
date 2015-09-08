@@ -1,5 +1,53 @@
 <?php View::content() ?>
-<pre>
-	<?php var_dump($r) ?>
-</pre>
+<?php foreach ($cursosinscritos as $key => $value): ?>
+<div class="well">
+	<p>
+		Semestre: <b><?php echo $value->numero ?></b>
+	</p>
+	<p>
+		Asignatura: <b><?php echo $value->asignatura ?></b>
+	</p>
+	<p class="bg-danger">
+		
+		<?php $r = Load::model("alumnoasistencia")->find("columns: alumnoasistencia.asistio, asistencia.descripcion","conditions: alumnoasistencia.incripcionalumnoasignatura_id = '{$value->incripcionalumnoasignatura_id}' ","join: inner join asistencia on asistencia.id = alumnoasistencia.asistencia_id") ?>
+		<!-- <pre>
+			<?php //var_dump(json_decode(json_encode($r))) ?>
+		</pre> -->
+		<?php if (!empty($r)): ?>
+		<?php $inasistencias=0 ?>
+		<?php $columnas = count($r) ?>
+			<table class="table datatable">
+				<thead>
+					<?php foreach ($r as $key => $value): ?>
+						<th>
+							<?php echo ucfirst($value->descripcion) ?>
+						</th>
+					<?php endforeach ?>
+					<th>Promedio Inasistencias</th>
+				</thead>
+					<tr>
+				<?php foreach ($r as $key => $value): ?>
+						<td>
+							<?php if ($value->asistio): ?>
+								Asistio
+							<?php else: ?>
+								No Asistio
+								<?php $inasistencias++ ?>
+							<?php endif ?>
+						</td>
+				<?php endforeach ?>
+						<td><?php echo number_format($inasistencias*100/$columnas,2) ?>%</td>
+					</tr>
+			</table>
+		<?php else: ?>
+			<center>
+				<h2>No hay asistencias programadas</h2>
+			</center>
+		<?php endif ?>
+	</p>
+
+	
+</div>
+<?php endforeach ?>
+
 <?php echo Html::link("perfil/","Volver","class='btn btn-default'") ?>

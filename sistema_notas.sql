@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 08-09-2015 a las 16:20:44
+-- Tiempo de generación: 08-09-2015 a las 18:50:28
 -- Versión del servidor: 5.5.44-0ubuntu0.14.04.1
 -- Versión de PHP: 5.5.9-1ubuntu4.11
 
@@ -78,14 +78,7 @@ CREATE TABLE IF NOT EXISTS `alumnoasignatura` (
   `alumno_id` int(11) NOT NULL,
   `terminado` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
-
---
--- Volcado de datos para la tabla `alumnoasignatura`
---
-
-INSERT INTO `alumnoasignatura` (`id`, `fecha`, `descripcion`, `estrategia`, `unidad`, `creado`, `asignatura_id`, `semestre_id`, `seccion_id`, `ponderacion`, `profesor_id`, `alumno_id`, `terminado`) VALUES
-(5, '2015-08-20', 'La descripción que le toca', 'LA estrategia es la que se', 'unidad 1', '2015-08-19 16:30:47', 5, 2, 5, '0%', 6, 1, 1);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -99,31 +92,7 @@ CREATE TABLE IF NOT EXISTS `alumnoasistencia` (
   `incripcionalumnoasignatura_id` int(11) NOT NULL,
   `asistio` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=40 ;
-
---
--- Volcado de datos para la tabla `alumnoasistencia`
---
-
-INSERT INTO `alumnoasistencia` (`id`, `asistencia_id`, `incripcionalumnoasignatura_id`, `asistio`) VALUES
-(22, 4, 22, 1),
-(23, 4, 23, 0),
-(24, 4, 24, 1),
-(25, 5, 22, 0),
-(26, 5, 23, 1),
-(27, 5, 24, 1),
-(28, 6, 22, 0),
-(29, 6, 23, 0),
-(30, 6, 24, 0),
-(31, 7, 22, 0),
-(32, 7, 23, 0),
-(33, 7, 24, 1),
-(34, 8, 22, 0),
-(35, 8, 23, 0),
-(36, 8, 24, 0),
-(37, 9, 22, 0),
-(38, 9, 23, 0),
-(39, 9, 24, 0);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -137,56 +106,7 @@ CREATE TABLE IF NOT EXISTS `alumnoevaluacion` (
   `profesorevaluacion_id` int(11) NOT NULL,
   `ponderacion` varchar(3) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=643 ;
-
---
--- Volcado de datos para la tabla `alumnoevaluacion`
---
-
-INSERT INTO `alumnoevaluacion` (`id`, `incripcionalumnoasignatura_id`, `profesorevaluacion_id`, `ponderacion`) VALUES
-(2, 10, 12, '3'),
-(3, 5, 12, '10'),
-(4, 7, 12, '15'),
-(5, 11, 12, '5'),
-(6, 9, 12, '7'),
-(7, 6, 12, '3'),
-(8, 4, 12, '02'),
-(9, 8, 12, '04'),
-(10, 10, 13, '2'),
-(11, 5, 13, '4'),
-(12, 7, 13, '20'),
-(13, 11, 13, '15'),
-(14, 9, 13, '5'),
-(15, 6, 13, '10'),
-(16, 4, 13, '12'),
-(17, 8, 13, '12'),
-(18, 10, 14, '10'),
-(19, 5, 14, '12'),
-(20, 7, 14, '13'),
-(21, 11, 14, '5'),
-(22, 9, 14, '14'),
-(23, 6, 14, '12'),
-(24, 4, 14, '6'),
-(25, 8, 14, '20'),
-(26, 10, 15, '10'),
-(27, 5, 15, '1'),
-(28, 7, 15, '20'),
-(29, 11, 15, '12'),
-(30, 9, 15, '15'),
-(31, 6, 15, '4'),
-(32, 4, 15, '2'),
-(33, 8, 15, '10'),
-(610, 12, 16, '5'),
-(611, 13, 16, '10'),
-(612, 14, 16, '2'),
-(613, 15, 16, '1'),
-(636, 2, 20, '0'),
-(637, 3, 20, '0'),
-(638, 17, 20, '0'),
-(639, 20, 20, '0'),
-(640, 22, 21, '0'),
-(641, 23, 21, '12'),
-(642, 24, 21, '12');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -233,19 +153,7 @@ CREATE TABLE IF NOT EXISTS `asistencia` (
   `descripcion` text NOT NULL,
   `fecha` date NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
-
---
--- Volcado de datos para la tabla `asistencia`
---
-
-INSERT INTO `asistencia` (`id`, `profesorasignatura_id`, `descripcion`, `fecha`) VALUES
-(4, 14, 'Descripcion 1', '2015-09-30'),
-(5, 14, 'Descripcion 2', '2015-09-30'),
-(6, 14, 'Asistencia 3', '2015-10-28'),
-(7, 14, 'Asistencia 4', '2015-12-19'),
-(8, 14, 'Asistencia 5', '2015-12-27'),
-(9, 14, 'Asistencia 6', '2016-03-31');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -259,36 +167,7 @@ CREATE TABLE IF NOT EXISTS `incripcionalumnoasignatura` (
   `profesorasignatura_id` int(11) NOT NULL,
   `alumno_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=25 ;
-
---
--- Volcado de datos para la tabla `incripcionalumnoasignatura`
---
-
-INSERT INTO `incripcionalumnoasignatura` (`id`, `creado`, `profesorasignatura_id`, `alumno_id`) VALUES
-(2, '2015-08-20 19:18:55', 9, 3),
-(3, '2015-08-20 19:19:22', 9, 3),
-(4, '2015-08-20 23:18:08', 13, 3),
-(5, '2015-08-20 23:23:59', 13, 4),
-(6, '2015-08-20 23:24:06', 13, 5),
-(7, '2015-08-20 23:24:14', 13, 6),
-(8, '2015-08-20 23:24:18', 13, 7),
-(9, '2015-08-20 23:24:22', 13, 8),
-(10, '2015-08-20 23:24:25', 13, 9),
-(11, '2015-08-20 23:24:29', 13, 10),
-(12, '2015-08-21 20:22:18', 11, 5),
-(13, '2015-08-21 20:22:23', 11, 6),
-(14, '2015-08-21 20:22:27', 11, 8),
-(15, '2015-08-21 20:22:31', 11, 1),
-(16, '2015-08-25 20:27:05', 8, 4),
-(17, '2015-08-25 20:27:05', 9, 4),
-(18, '2015-08-25 20:27:05', 11, 4),
-(19, '2015-08-25 20:32:24', 8, 7),
-(20, '2015-08-25 20:32:24', 9, 7),
-(21, '2015-08-25 20:32:24', 11, 7),
-(22, '2015-09-07 16:08:04', 14, 8),
-(23, '2015-09-07 16:08:12', 14, 9),
-(24, '2015-09-07 16:08:18', 14, 10);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -337,19 +216,7 @@ CREATE TABLE IF NOT EXISTS `profesorasignatura` (
   `asignatura_id` int(11) NOT NULL,
   `profesor_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
-
---
--- Volcado de datos para la tabla `profesorasignatura`
---
-
-INSERT INTO `profesorasignatura` (`id`, `seccion_id`, `semestre_id`, `asignatura_id`, `profesor_id`) VALUES
-(8, 1, 1, 1, 3),
-(9, 1, 1, 4, 3),
-(11, 3, 1, 3, 3),
-(12, 1, 1, 4, 1),
-(13, 5, 2, 5, 6),
-(14, 1, 1, 1, 6);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -366,26 +233,7 @@ CREATE TABLE IF NOT EXISTS `profesorevaluacion` (
   `fecha` date NOT NULL,
   `creado` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=22 ;
-
---
--- Volcado de datos para la tabla `profesorevaluacion`
---
-
-INSERT INTO `profesorevaluacion` (`id`, `profesorasignatura_id`, `unidad`, `tipoevaluacion`, `porcentaje`, `fecha`, `creado`) VALUES
-(1, 8, 'unidad 1', 'examen escrito', '30%', '2015-08-31', '2015-08-20 14:50:42'),
-(8, 8, 'Unidad 2', 'Prueba oral', '40%', '2015-09-03', '2015-08-20 15:07:25'),
-(10, 8, 'Unidad 2', 'Prueba oral', '20%', '2015-09-03', '2015-08-20 15:08:50'),
-(11, 8, 'Unidad 2', 'Trabajo Escrito', '10%', '2015-09-11', '2015-08-20 15:09:04'),
-(12, 13, 'Unidad 1', 'Examen Escrito', '30', '2015-08-20', '2015-08-20 23:25:20'),
-(13, 13, 'Unidad 2', 'Examen Escrito', '30', '2015-08-27', '2015-08-20 23:25:27'),
-(14, 13, 'Unidad 3', 'Examen Escrito', '30', '2015-09-03', '2015-08-20 23:25:40'),
-(15, 13, 'Unidad 4', 'Examen Escrito', '10', '2015-09-03', '2015-08-20 23:25:50'),
-(16, 11, 'Unidad 1', 'Prueba Escrita', '30%', '2015-08-31', '2015-08-21 20:27:58'),
-(18, 11, 'Unidad 2', 'examen escrito', '40%', '2015-10-23', '2015-08-21 20:44:09'),
-(19, 11, 'Unidad 3', 'Prueba oral', '10%', '2015-11-14', '2015-08-21 20:46:00'),
-(20, 9, 'unidad 1', 'escrita', '30', '2015-09-30', '2015-09-07 13:40:36'),
-(21, 14, 'Unidad 1', 'examen escrito', '30', '2015-09-30', '2015-09-07 16:08:35');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
