@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 07-09-2015 a las 13:54:53
+-- Tiempo de generación: 08-09-2015 a las 16:20:44
 -- Versión del servidor: 5.5.44-0ubuntu0.14.04.1
 -- Versión de PHP: 5.5.9-1ubuntu4.11
 
@@ -96,11 +96,34 @@ INSERT INTO `alumnoasignatura` (`id`, `fecha`, `descripcion`, `estrategia`, `uni
 CREATE TABLE IF NOT EXISTS `alumnoasistencia` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `asistencia_id` int(11) NOT NULL,
-  `profesorevaluacion_id` int(11) NOT NULL,
   `incripcionalumnoasignatura_id` int(11) NOT NULL,
   `asistio` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=40 ;
+
+--
+-- Volcado de datos para la tabla `alumnoasistencia`
+--
+
+INSERT INTO `alumnoasistencia` (`id`, `asistencia_id`, `incripcionalumnoasignatura_id`, `asistio`) VALUES
+(22, 4, 22, 1),
+(23, 4, 23, 0),
+(24, 4, 24, 1),
+(25, 5, 22, 0),
+(26, 5, 23, 1),
+(27, 5, 24, 1),
+(28, 6, 22, 0),
+(29, 6, 23, 0),
+(30, 6, 24, 0),
+(31, 7, 22, 0),
+(32, 7, 23, 0),
+(33, 7, 24, 1),
+(34, 8, 22, 0),
+(35, 8, 23, 0),
+(36, 8, 24, 0),
+(37, 9, 22, 0),
+(38, 9, 23, 0),
+(39, 9, 24, 0);
 
 -- --------------------------------------------------------
 
@@ -163,7 +186,7 @@ INSERT INTO `alumnoevaluacion` (`id`, `incripcionalumnoasignatura_id`, `profesor
 (639, 20, 20, '0'),
 (640, 22, 21, '0'),
 (641, 23, 21, '12'),
-(642, 24, 21, '0');
+(642, 24, 21, '12');
 
 -- --------------------------------------------------------
 
@@ -206,18 +229,23 @@ INSERT INTO `asignatura` (`id`, `codigo`, `ht`, `hp`, `th`, `cr`, `asignatura`, 
 
 CREATE TABLE IF NOT EXISTS `asistencia` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `profesor_id` int(11) NOT NULL,
+  `profesorasignatura_id` int(11) NOT NULL,
   `descripcion` text NOT NULL,
   `fecha` date NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
 
 --
 -- Volcado de datos para la tabla `asistencia`
 --
 
-INSERT INTO `asistencia` (`id`, `profesor_id`, `descripcion`, `fecha`) VALUES
-(1, 3, 'descripcion 1', '2015-09-30');
+INSERT INTO `asistencia` (`id`, `profesorasignatura_id`, `descripcion`, `fecha`) VALUES
+(4, 14, 'Descripcion 1', '2015-09-30'),
+(5, 14, 'Descripcion 2', '2015-09-30'),
+(6, 14, 'Asistencia 3', '2015-10-28'),
+(7, 14, 'Asistencia 4', '2015-12-19'),
+(8, 14, 'Asistencia 5', '2015-12-27'),
+(9, 14, 'Asistencia 6', '2016-03-31');
 
 -- --------------------------------------------------------
 

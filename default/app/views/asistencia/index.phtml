@@ -1,11 +1,10 @@
 
 <?php View::content() ?>
 
-<?php echo Form::open("asistencia/agregar_asistencia","POST","class='form-inline'") ?>
+<?php echo Form::open("","POST","class='form-inline'") ?>
 	<div class="form-group">
 		<label>Descripción</label>
-		<?php echo Form::hidden("asistencia.profesor_id",null,$profesor_id) ?>
-		<?php echo Form::hidden("profesorevaluacion_id",null,$profesorasignatura_id) ?>
+		<?php echo Form::hidden("asistencia.profesorasignatura_id",null,$profesorasignatura_id) ?>
 		<?php echo Form::text("asistencia.descripcion","class='form-control'") ?>
 	</div>
 	<div class="form-group">
@@ -28,7 +27,7 @@
 			<!--profesorevaluacion_id / profesorasignatura_id-->
 			<td>
 
-				<?php echo Html::link("calificar/grupo/{$value->id}/{$value->profesorasignatura_id}","Calificar","class='btn btn-default'") ?>
+				<?php echo Html::link("asistencia/agregar_asistencia/$profesor_id/$profesorasignatura_id/{$value->id}","Agregar Asistencia","class='btn btn-default'") ?>
 	
 			</td>
 		</tr>
@@ -37,31 +36,50 @@
 
 <table class="table datatable">
 	<thead>
-		<?php $columnas = 1; ?>
-		<th>Apellidos y Nombres</th>
+		<?php $columnas = 0; ?>
+		<th>Alumno</th>
 
 		<?php foreach ($asistencia as $key => $value): ?>
 			<th>
-				<center><?php echo ucfirst($value->unidad) ?></center>
-				<center><?php echo ucfirst($value->tipoevaluacion) ?></center>
-				<center><?php echo str_replace("%", "", $value->porcentaje)."%" ?> - (<?php echo $value->fecha ?>)</center>
+				<center><?php echo ucfirst($value->descripcion) ?></center>
 			</th>
 			<?php $columnas++; ?>
 		<?php endforeach ?>
-		<th>Promedio</th>
+		<th>Total Asistencia</th>
+		<th>Total Inasistencia</th>
+		<th>% Inasistencia</th>
 	</thead>
-	<?php foreach ($asistenciaalumnos as $key => $value): ?>
+	<?php foreach ($asistencia_alumnos as $key => $value): ?>
+		<?php $asistio = 0 ?>
+		<?php $inasistencia = 0 ?>
+		<?php $numero_asistencias = 0 ?>
 			<tr>
-				<td><?php echo ucfirst($value->apellidos." ".$value->nombres) ?></td>
-				<?php $r = $notasalumnos[0]->getNotasAsignaturaConAlumnosByProfesorAsignaturaIdAndAlumnoId($profesorasignatura_id,null,$value->id) ?>
-				<?php $suma_promedio = 0; ?>
-				<?php $suma_porcentaje = 0; ?>
-				<?php foreach ($r as $key1 => $value1): ?>
-					<td><center><?php echo "(".$value1->ponderacion.")".($value1->ponderacion*$value1->porcentaje)/100 ?></center></td>
-					<?php $suma_promedio+=$value1->ponderacion*$value1->porcentaje/100; ?>
+				<td>
+					<?php echo ucfirst($value->apellidos)." ".ucfirst($value->nombres)?>
+				</td>
+				<?php foreach ($asistencia as $key2 => $value2): ?>
+					<?php $numero_asistencias++ ?>
+					
+						<?php $q = $asistencia[0]->getAsistenciaByAsistenciaIdYAlumnoId($value2->id,$value->alumno_id) ?>
+						<td>
+						<?php if ($q[0]->asistio): ?>
+								<?php $asistio++ ?>
+								Asistió
+							<?php else: ?>
+								No Asistió
+								<?php $inasistencia++ ?>
+						<?php endif ?>
+						</td>
+					
 				<?php endforeach ?>
-				<td><center><?php echo $suma_promedio ?></center></td>
-			</tr>
+			
+				
+				
+		
+			<td><?php echo $asistio ?></td>
+			<td><?php echo $inasistencia ?></td>
+			<td><?php echo number_format(($inasistencia*100)/$columnas,2) ?>%</td>
+		</tr>
 		<?php endforeach ?>
 </table>
 

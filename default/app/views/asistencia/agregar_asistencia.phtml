@@ -1,0 +1,43 @@
+<?php View::content() ?>
+<?php echo Form::open() ?>
+<table class="table datatable">
+<thead>
+	<th>Alumno</th>
+	<th>Asistió</th>
+</thead>
+<?php echo Form::hidden("asistencia_id",null,$asistencia_id) ?>
+<?php foreach ($alumnosinscritos as $key => $value): ?>
+	<tr>
+		<td><?php echo ucfirst($value->apellidos)." ".ucfirst($value->nombres) ?></td>
+		<td>
+			<div class="checkbox">
+				<?php echo Form::hidden("alumnoasistencia[inscripcionasignatura_id][]",null,$value->incripcionalumnoasignatura_id) ?>
+				<?php $validador_asistencia = $alumnoasistencia_obj->find("incripcionalumnoasignatura_id='{$value->incripcionalumnoasignatura_id}' and asistencia_id = '$asistencia_id'","order: id asc") ?>
+				<?php if ($validador_asistencia): ?>
+					<?php echo Form::hidden("alumnoasistencia[id][]",null,$validador_asistencia[0]->id) ?>
+				<?php endif ?>
+				<label>
+				<?php if ($validador_asistencia and $validador_asistencia[0]->asistio): ?>
+					<?php $activo = 1; ?>
+					<?php echo Form::radio("alumnoasistencia[asistio][$value->alumno_id]","1",null,1) ?> SI
+				<?php else: ?>
+					<?php $activo = 0; ?>
+					<?php echo Form::radio("alumnoasistencia[asistio][$value->alumno_id]","1",null) ?> SI
+				<?php endif ?>
+				</label>
+					<label>
+				<?php if (!$activo): ?>
+						<?php echo Form::radio("alumnoasistencia[asistio][$value->alumno_id]","0",null,1) ?> NO
+					
+				<?php else: ?>
+					<?php echo Form::radio("alumnoasistencia[asistio][$value->alumno_id]","0",null) ?> NO
+				<?php endif ?>
+				</label>
+			</div>
+		</td>
+	</tr>
+<?php endforeach ?>
+</table>
+<?php echo Html::link("asistencia/index/$profesor_id/$profesorasignatura_id","Volver","class='btn btn-default'") ?>
+<?php echo Form::submit("Hecho","class='btn btn-success'") ?>
+<?php echo Form::close() ?>

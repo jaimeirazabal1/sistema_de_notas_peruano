@@ -44,6 +44,10 @@ class Incripcionalumnoasignatura extends ActiveRecord{
 				
 		return $this->find_all_by_sql($query);
 	}
+	public function getAlumnosByProfesorasignatura_id($profesorasignatura_id){
+		return $this->find("columns: incripcionalumnoasignatura.id as incripcionalumnoasignatura_id, alumno.nombres,alumno.apellidos,alumno.id as alumno_id, alumno.dni","conditions: profesorasignatura_id = '$profesorasignatura_id'",
+															"join: inner join alumno on incripcionalumnoasignatura.alumno_id = alumno.id");
+	}
 }
 
  ?>

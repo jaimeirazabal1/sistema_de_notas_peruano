@@ -60,6 +60,13 @@
           <li role="presentation"><?php echo Html::link("asistencia/index/".Auth::get("id")."/".$parametros[0],"Asistencia") ?></li>
         <?php endif ?>
     <?php endif ?>
+    <?php if (Auth::get("tipousuario") == "alumno"): ?>
+      <?php if ($controlador == "asistencia"): ?>
+          <li role="presentation" class='active'><?php echo Html::link("asistencia/alumno/".Auth::get("id"),"Asistencia") ?></li>
+        <?php else: ?>
+          <li role="presentation"><?php echo Html::link("asistencia/alumno/".Auth::get("id"),"Asistencia") ?></li>
+        <?php endif ?>
+    <?php endif ?>
     <li role="presentation"><?php echo Html::link("perfil/logout","Salir") ?></li>
   </ul>
 <?php endif ?>

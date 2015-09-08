@@ -30,7 +30,7 @@ class AppController extends Controller
 
     	if (Auth::is_valid()) {
     		if ($tipousuario == "alumno") {
-    			if ($ruta != "perfil/index" and $ruta != "perfil/logout") {
+    			if ($ruta != "perfil/index" and $ruta != "perfil/logout" and $ruta != "asistencia/alumno") {
     				Flash::warning("Acceso Denegado");
     				Router::redirect("perfil/");
     			}
